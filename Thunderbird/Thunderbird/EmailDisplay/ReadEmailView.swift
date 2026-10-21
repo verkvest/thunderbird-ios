@@ -11,35 +11,107 @@ struct ReadEmailView: View {
     init(_ temptEmail: TempEmail) {
         self.tempEmail = temptEmail
         email = nil
+        accountID = nil
+        mailboxName = "INBOX"
+        cacheID = nil
     }
 
     init(_ email: Email) {
         self.email = email
         tempEmail = nil
+        accountID = nil
+        mailboxName = "INBOX"
+        cacheID = nil
+    }
+
+    init(header: MailCache.Header) {
+        tempEmail = nil
+        accountID = header.accountID
+        mailboxName = header.mailbox
+        cacheID = header.id
+        email = Email(subject: header.subject, uid: header.uid.map { UID(rawValue: $0) }, id: header.id)
     }
 
     @Environment(AccountManager.self) private var accountManager: AccountManager
+    @Environment(MailboxModel.self) private var mailboxModel: MailboxModel
     @State private var isRefreshing: Bool = false
     @State private var email: Email?
+    @State private var shareURLs: [URL] = []
     private let tempEmail: TempEmail?
+    private let accountID: UUID?
+    private let mailboxName: String
+    private let cacheID: String?
 
     private func refresh() async {
-        guard let account: Account = accountManager.allAccounts.first,
-            let email
-        else { return }
+        guard let email else { return }
+        let account: Account? = accountID.flatMap { accountManager.account(for: $0) } ?? accountManager.allAccounts.first
+        guard let account else { return }
         isRefreshing = true
-        self.email = (try? await account.email(email)) ?? email
+        let loaded: Email = (try? await account.email(email, in: mailboxName)) ?? email
+        self.email = loaded
+        shareURLs = (loaded.body?.attachments ?? []).enumerated().compactMap { index, attachment in
+            let url: URL = FileManager.default.temporaryDirectory.appending(path: "attachment-\(index + 1)")
+            do {
+                try attachment.data.write(to: url, options: .atomic)
+                return url
+            } catch {
+                return nil
+            }
+        }
         isRefreshing = false
     }
 
     var body: some View {
         if let email {
             VStack {
-                WebView(htmlString: email.body?.html() ?? "")
-                    .ignoresSafeArea()
+                if isRefreshing && (email.body?.html() ?? "").isEmpty {
+                    if let cached: String = cacheID.flatMap({ mailboxModel.cachedBody(id: $0)?.html ?? mailboxModel.cachedBody(id: $0)?.text }) {
+                        WebView(htmlString: cached)
+                            .ignoresSafeArea()
+                    } else {
+                        ProgressView("inbox_loading")
+                    }
+                } else {
+                    WebView(htmlString: email.body?.html() ?? email.body?.text ?? "")
+                        .ignoresSafeArea()
+                }
             }
             .task {
                 await refresh()
+            }
+            .toolbar {
+                ToolbarItem(placement: .trailing) {
+                    NavigationLink {
+                        ComposeView(draft: replyDraft(email, all: false))
+                    } label: {
+                        Image(systemName: "arrowshape.turn.up.left")
+                    }
+                    .accessibilityLabel("reply_button")
+                }
+                ToolbarItem(placement: .trailing) {
+                    NavigationLink {
+                        ComposeView(draft: replyDraft(email, all: true))
+                    } label: {
+                        Image(systemName: "arrowshape.turn.up.left.2")
+                    }
+                    .accessibilityLabel("reply_all_button")
+                }
+                ToolbarItem(placement: .trailing) {
+                    NavigationLink {
+                        ComposeView(draft: forwardDraft(email))
+                    } label: {
+                        Image(systemName: "arrowshape.turn.up.right")
+                    }
+                    .accessibilityLabel("forward_button")
+                }
+                if !shareURLs.isEmpty {
+                    ToolbarItem(placement: .trailing) {
+                        ShareLink(items: shareURLs) {
+                            Image(systemName: "square.and.arrow.up")
+                        }
+                        .accessibilityLabel("share_attachment")
+                    }
+                }
             }
         } else if let tempEmail {
             VStack(alignment: .leading, spacing: 20) {
@@ -171,6 +243,31 @@ struct ReadEmailView: View {
                 }
             }
         }
+    }
+
+    private func replyDraft(_ email: Email, all: Bool) -> ComposeDraft {
+        var reply: Email = email.asReply(all: all)
+        let prefix: String = "Re: "
+        if !(reply.subject ?? "").hasPrefix(prefix) {
+            reply.subject = prefix + (reply.subject ?? "")
+        }
+        let draft: ComposeDraft = ComposeDraft()
+        draft.apply(reply, accountID: accountID)
+        return draft
+    }
+
+    private func forwardDraft(_ email: Email) -> ComposeDraft {
+        var copy: Email = email
+        copy.to = []
+        copy.cc = []
+        copy.bcc = []
+        let prefix: String = "Fwd: "
+        if !(copy.subject ?? "").hasPrefix(prefix) {
+            copy.subject = prefix + (copy.subject ?? "")
+        }
+        let draft: ComposeDraft = ComposeDraft()
+        draft.apply(copy, accountID: accountID)
+        return draft
     }
 }
 
@@ -328,7 +425,7 @@ struct SenderView: View {
                 } label: {
                     Label("options_button", systemImage: "ellipsis")
                         .labelStyle(.iconOnly)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.primary)
                 }
             }
 

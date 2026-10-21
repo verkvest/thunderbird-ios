@@ -4,10 +4,16 @@
 
 /// ``IMAPClient`` connects to `Server`.
 public struct Server: CustomStringConvertible, Equatable, Sendable {
+    public enum Authentication: String, Equatable, Sendable {
+        case password
+        case xoauth2
+    }
+
     public let connectionSecurity: ConnectionSecurity
     public let hostname: String
     public let username: String?
     public let password: String?
+    public let authentication: Authentication
     public let port: Int
 
     /// `Server` can be configured with or without basic auth credentials.
@@ -18,12 +24,14 @@ public struct Server: CustomStringConvertible, Equatable, Sendable {
         hostname: String,
         username: String? = nil,
         password: String? = nil,
+        authentication: Authentication = .password,
         port: Int = 993
     ) {
         self.connectionSecurity = connectionSecurity
         self.hostname = hostname
         self.username = username
         self.password = password
+        self.authentication = authentication
         self.port = port
     }
 

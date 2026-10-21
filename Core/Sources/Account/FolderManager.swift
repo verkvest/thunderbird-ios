@@ -39,6 +39,7 @@ public final class FolderManager {
     // i.e. Folder > Subfolder > Child Subfolder AND Folder > Subfolder > Child Subfolder > Grandchild Subfolder appear at the same level
     // In this instance "Grandchild Subfolder" should appear as "Child Subfolder/Grandchild Subfolder" in the UI.
     public func refreshFolders(mailboxes: [Mailbox]) async {
+        folders = []
         // Populate the full list of folders
         for mailbox in mailboxes {
             folders.append(Folder(from: mailbox))

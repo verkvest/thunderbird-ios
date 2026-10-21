@@ -157,6 +157,7 @@ let package: Package = Package(
         .testTarget(
             name: "SMTPTests",
             dependencies: [
-                "SMTP"
+                "SMTP",
+                .product(name: "NIO", package: "swift-nio")
             ])
     ])

@@ -3,7 +3,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Foundation
-import AuthenticationServices
 
 /// Globally manage shared, persistent accounts from the SwiftUI environment.
 @MainActor
@@ -73,52 +72,18 @@ public final class AccountManager {
 
     public func checkAndRenewExpirations() async {
         for account in allAccounts {
-            guard account.authenticationType == .oAuth2, account.authorization.isExpired,
-                let refreshToken: String = account.authorization.refreshToken,
-                let user: String = account.incomingServer?.username
-            else {
+            guard account.authenticationType == .oAuth2, account.authorization.isExpired, account.authorization.refreshToken != nil else {
                 continue
             }
             do {
                 var account: Account = account
-                guard let authConfig: OAuth2.Configuration = try await account.authConfig else {
-                    throw URLError(.unsupportedURL)
+                let renewed: Authorization = try await account.renewedAuthorization()
+                if renewed != account.authorization {
+                    account.authorization = renewed
                 }
-                account.authorization = try await renewExpiredToken(
-                    authConfig: authConfig,
-                    refreshToken: refreshToken,
-                    user: user
-                )
             } catch {
                 self.error = .authorization(error)
             }
-        }
-    }
-
-    private func renewExpiredToken(authConfig: OAuth2.Configuration, refreshToken: String, user: String, retry attempts: Int = 2) async throws -> Authorization {
-        do {
-            let tokenRequest: URLRequest = try .refreshToken(
-                authConfig,
-                refreshToken: refreshToken
-            )
-            let data: Data = try await URLSession.shared.data(for: tokenRequest).0
-            let response: RefreshTokenResponse = try JSONDecoder().decode(RefreshTokenResponse.self, from: data)
-            let token: Token = .bearer(
-                response.accessToken,
-                Date(timeIntervalSinceNow: TimeInterval(response.expiresIn))
-            )
-            return .oauth(user: user, token: token, refresh: .refresh(refreshToken))
-        } catch {
-            guard attempts > 0 else {
-                throw error  // Retry attempts exhausted, exit
-            }
-            // Retry request, decrementing remaining attempts
-            return try await renewExpiredToken(
-                authConfig: authConfig,
-                refreshToken: refreshToken,
-                user: user,
-                retry: attempts - 1
-            )
         }
     }
 

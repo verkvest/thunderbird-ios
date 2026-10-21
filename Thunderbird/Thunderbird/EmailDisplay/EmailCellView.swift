@@ -39,26 +39,40 @@ struct EmailCellView: View {
 
     init(email: Email) {
         self.senderText = email.sender.first?.addresses.first?.description ?? ""
-        self.headerText = email.subject ?? "Untitled"
-        self.bodyText = "Body text"
-        self.dateSent = email.sent ?? Date()
-        self.unread = false
+        self.headerText = email.subject ?? ""
+        self.bodyText = email.body?.preview ?? email.body?.text ?? ""
+        self.dateSent = email.sent ?? email.received ?? Date()
+        self.unread = !email.flags.contains(.seen)
         self.newEmail = false
-        self.hasAttachment = false
+        self.hasAttachment = !(email.body?.attachments.isEmpty ?? true)
         self.isThread = false
-        self.pinned = false
+        self.pinned = email.flags.contains(.flagged)
 
         self.tempEmail = nil
         self.email = email
+    }
 
+    init(header: MailCache.Header) {
+        self.senderText = header.from
+        self.headerText = header.subject
+        self.bodyText = header.preview
+        self.dateSent = header.date ?? Date()
+        self.unread = header.unread
+        self.newEmail = false
+        self.hasAttachment = false
+        self.isThread = false
+        self.pinned = header.flagged
+        self.tempEmail = nil
+        self.email = nil
     }
 
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 if pinned {
-                    Image("icon.pin")
-                        .font(.system(size: 8))
+                    Image(systemName: "flag.fill")
+                        .font(.caption2)
+                        .foregroundStyle(.orange)
                 }
 
                 Text(senderText)

@@ -16,65 +16,57 @@ final class SendHandler: ChannelInboundHandler, @unchecked Sendable {
         self.recipient = recipient ?? email.recipients.first ?? ""
         self.server = server
         self.done = done
+        stepper = SMTPStepper(
+            security: server.connectionSecurity,
+            authentication: server.authentication,
+            hostname: server.hostname,
+            username: server.username,
+            secret: server.password,
+            email: email,
+            recipient: self.recipient
+        )
         if self.recipient.value.isEmpty {
-            expect = .error(SMTPError.emailRecipientNotFound)
+            fail(SMTPError.emailRecipientNotFound)
         }
-    }
-
-    private enum Expect {
-        case initialMessageFromServer
-        case okForHello
-        case okForStartTLS
-        case tlsHandlerToBeAdded
-        case okForAuthBegin
-        case okAfterUsername
-        case okAfterPassword
-        case okAfterMailFrom
-        case okAfterRecipient
-        case okAfterData
-        case okAfterTransferData
-        case okAfterQuit
-        case error(Error)
-        case nothing
     }
 
     private let done: EventLoopPromise<Void>
-    private var context: ChannelHandlerContext?
-
-    private var expect: Expect = .initialMessageFromServer {
-        didSet {
-            guard case .error(let error) = expect else { return }
-            done.fail(error)
-        }
-    }
+    private var stepper: SMTPStepper
+    private var finished: Bool = false
 
     private func send(context: ChannelHandlerContext, command: Request) {
         context.writeAndFlush(wrapOutboundOut(command)).cascadeFailure(to: done)
     }
 
-    private func sendAuthLogin() {
-        @Sendable func send() {
-            guard let context else { return }
-            self.send(context: context, command: .authLogin)
-            expect = .okForAuthBegin
-        }
+    private func fail(_ error: Error) {
+        guard !finished else { return }
+        finished = true
+        done.fail(error)
+    }
 
-        switch server.connectionSecurity {
-        case .startTLS, .tls:
-            if let context {
-                context.channel.pipeline.handler(type: NIOSSLClientHandler.self).map { _ in
-                    send()  // SSL handler present in pipeline
-                }.whenFailure { error in
-                    guard self.server.connectionSecurity == .tls else { return }
-                    self.expect = .error(error)
+    private func perform(_ action: SMTPStepper.Action, context: ChannelHandlerContext) {
+        switch action {
+        case .send(let request):
+            send(context: context, command: request)
+        case .installTLS:
+            context.channel.eventLoop.makeCompletedFuture {
+                try context.channel.pipeline.syncOperations.addHandler(
+                    try NIOSSLClientHandler(context: .ssl, serverHostname: server.hostname),
+                    position: .first
+                )
+            }.whenComplete { result in
+                switch result {
+                case .failure(let error):
+                    self.fail(error)
+                case .success:
+                    self.perform(self.stepper.afterTLSInstalled(), context: context)
                 }
-            } else {
-                expect = .error(SMTPError.requiredTLSNotConfigured)
             }
-        case .none:
-            send()  // Authenticate in plain text
+        case .finished:
+            finished = true
+            done.succeed()
+            context.close(promise: nil)
         }
-        self.context = nil
     }
 
     // MARK: ChannelInboundHandler
@@ -85,84 +77,19 @@ final class SendHandler: ChannelInboundHandler, @unchecked Sendable {
     func channelRead(context: ChannelHandlerContext, data: NIOAny) {
         switch unwrapInboundIn(data) {
         case .error(let error):
-            expect = .error(SMTPError.response(error))
+            fail(SMTPError.response(error))
         case .ok:
-            switch expect {
-            case .initialMessageFromServer:
-                send(context: context, command: .hello(server.hostname))
-                expect = .okForHello
-            case .okForHello:
-                switch server.connectionSecurity {
-                case .startTLS:
-                    send(context: context, command: .startTLS)
-                    expect = .okForStartTLS
-                case .tls, .none:
-                    self.context = context
-                    sendAuthLogin()
-                }
-            case .okForStartTLS:
-                expect = .tlsHandlerToBeAdded
-                self.context = context
-                context.channel.eventLoop.makeCompletedFuture {
-                    try context.channel.pipeline.syncOperations.addHandler(
-                        try NIOSSLClientHandler(context: .ssl, serverHostname: server.hostname),
-                        position: .first
-                    )
-                }.whenComplete { result in
-                    switch self.expect {
-                    case .tlsHandlerToBeAdded:
-                        switch result {
-                        case .failure(let error):
-                            self.expect = .error(error)
-                        case .success:
-                            self.sendAuthLogin()
-                        }
-                        break
-                    default:
-                        self.expect = .error(SMTPError.requiredTLSNotConfigured)
-                    }
-                }
-            case .tlsHandlerToBeAdded:
-                fatalError("SMTP.SendHandler.channelRead(context:data:) before TLS handler added to pipeline")
-            case .okForAuthBegin:
-                send(context: context, command: .authUser(server.username))
-                expect = .okAfterUsername
-            case .okAfterUsername:
-                send(context: context, command: .authPassword(server.password))
-                expect = .okAfterPassword
-            case .okAfterPassword:
-                send(context: context, command: .mailFrom(email.sender))
-                expect = .okAfterMailFrom
-            case .okAfterMailFrom:
-                send(context: context, command: .recipient(recipient))
-                expect = .okAfterRecipient
-            case .okAfterRecipient:
-                send(context: context, command: .data)
-                expect = .okAfterData
-            case .okAfterData:
-                send(context: context, command: .transferData(email))
-                expect = .okAfterTransferData
-            case .okAfterTransferData:
-                send(context: context, command: .quit)
-                expect = .okAfterQuit
-            case .okAfterQuit:
-                done.succeed()
-                context.close(promise: nil)
-                expect = .nothing
-            case .error(let error):
-                fatalError("SMTP.SendHandler.channelRead(context:data:) after error: \(error)")
-            case .nothing:
-                break
-            }
+            guard !finished else { return }
+            perform(stepper.receiveOK(), context: context)
         }
     }
 
     func channelInactive(context: ChannelHandlerContext) {
-        expect = .error(SMTPError.remoteConnectionClosed)
+        fail(SMTPError.remoteConnectionClosed)
     }
 
     func errorCaught(context: ChannelHandlerContext, error: any Error) {
-        expect = .error(error)
+        fail(error)
         context.close(promise: nil)
     }
 }

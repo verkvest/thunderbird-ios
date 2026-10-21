@@ -6,14 +6,20 @@ import Account
 import SwiftUI
 
 struct AccountFolderDisclosureView: View {
-    @Environment(FolderManager.self) private var folderManager: FolderManager
+    var account: Account
+    var onSelect: (Folder) -> Void = { _ in }
+    @Environment(MailboxModel.self) private var mailbox: MailboxModel
     @State private var isExpanded: Bool = false
     @State private var unreadCount: Int = 0
+
+    private var folderManager: FolderManager {
+        mailbox.folderManagers[account.id] ?? FolderManager(account: account)
+    }
 
     var body: some View {
         DisclosureGroup(isExpanded: $isExpanded) {
             ForEach(folderManager.folders) { folder in
-                MailboxDropdownRowView(folder: folder)
+                MailboxDropdownRowView(folder: folder, onSelect: onSelect)
             }
             .padding(.vertical, 10)
         } label: {
@@ -23,37 +29,36 @@ struct AccountFolderDisclosureView: View {
                     bubbleColor: Color(folderManager.account.avatarColor)
                 )
                 VStack(alignment: .leading) {
-                    Text(folderManager.account.name)
+                    Text(account.name)
                         .font(.body)
                         .truncationMode(.middle)
-                    if (!folderManager.account.name.isEmailAddress) {
-                        Text(folderManager.account.identities[0].email)
-                            .font(.caption2)
+                    if !account.name.isEmailAddress, let address: String = account.identities.first?.value {
+                        Text(address)
+                            .font(.caption)
                             .truncationMode(.middle)
                     }
                 }.padding(.horizontal)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.primary)
                 Spacer()
-                if (!isExpanded && unreadCount > 0) {
+                if !isExpanded && unreadCount > 0 {
                     UnreadCounter(unreadCount: unreadCount, hasNew: false)
                 }
             }.padding(.vertical, 10)
                 .safeAreaPadding(.horizontal)
         }.task {
-            for folder in folderManager.folders {
-                unreadCount += folder.unreadEmails!
-            }
-        }.padding(.horizontal, 10)
+            await mailbox.loadFolders(account: account)
+            unreadCount = folderManager.folders.reduce(0) { $0 + ($1.unreadEmails ?? 0) }
+        }.padding(.horizontal, 8)
             .background {
-                RoundedRectangle(cornerRadius: 24)
-                    .foregroundStyle(.white)
+                RoundedRectangle(cornerRadius: 16)
+                    .foregroundStyle(Color.drawerCard)
             }
     }
 }
 
 #Preview {
-    @Previewable @State var mailboxes: FolderManager = FolderManager(account: Account("temp@email.com"))
+    @Previewable @State var mailbox: MailboxModel = MailboxModel()
 
-    AccountFolderDisclosureView()
-        .environment(mailboxes)
+    AccountFolderDisclosureView(account: Account("temp@email.com"))
+        .environment(mailbox)
 }

@@ -8,8 +8,10 @@ import Core
 
 struct ComposeHeaderView: View {
     @State var email: Email?
+    var draft: ComposeDraft? = nil
 
     @Environment(AccountManager.self) private var accountManager: AccountManager
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass: UserInterfaceSizeClass?
     @State private var subject: String = ""
     @State private var toRecipients: [String] = []
     @State private var replyToRecipients: [String] = []
@@ -51,7 +53,7 @@ struct ComposeHeaderView: View {
                             Button("", systemImage: "chevron.down") {
                                 showReplyTo = true
                             }
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.primary)
                             Spacer()
                         }
                     }
@@ -69,7 +71,7 @@ struct ComposeHeaderView: View {
                             Button("", systemImage: "chevron.down") {
                                 showCCBCC = true
                             }
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.primary)
                             Spacer()
                         }
                     }
@@ -85,14 +87,36 @@ struct ComposeHeaderView: View {
             Divider()
 
             TextField("subject_header", text: $subject)
-                .font(.subheadline)
-                .padding()
-                .background(.gray, in: RoundedRectangle(cornerRadius: 24))
+                .font(.body)
+                .padding(horizontalSizeClass == .compact ? 8 : 12)
+                .background(.quaternary, in: RoundedRectangle(cornerRadius: 16))
         }
-        .padding()
+        .padding(horizontalSizeClass == .compact ? 8 : 16)
         .onAppear {
             populateFromEmail(email)
+            if let draft, draft.accountID == nil {
+                draft.accountID = accountManager.allAccounts.first?.id
+            }
+            if let id: UUID = draft?.accountID {
+                selectedSender = id
+            } else if let first: UUID = accountManager.allAccounts.first?.id {
+                selectedSender = first
+            }
+            publish()
         }
+        .onChange(of: subject) { publish() }
+        .onChange(of: toRecipients) { publish() }
+        .onChange(of: ccRecipients) { publish() }
+        .onChange(of: bccRecipients) { publish() }
+        .onChange(of: selectedSender) { publish() }
+    }
+
+    private func publish() {
+        draft?.subject = subject
+        draft?.to = toRecipients
+        draft?.cc = ccRecipients
+        draft?.bcc = bccRecipients
+        draft?.accountID = selectedSender
     }
 }
 

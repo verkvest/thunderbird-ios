@@ -8,12 +8,28 @@ import SwiftUI
 struct GeneralSettingsView: View {
     @Environment(AccountManager.self) private var accountManager: AccountManager
     @Environment(\.openURL) private var openURL: OpenURLAction
+    @AppStorage("verkvest.faceIDLock") private var faceIDLock: Bool = false
+    @AppStorage("verkvest.backgroundRefresh") private var backgroundRefresh: Bool = true
 
     var body: some View {
         NavigationStack {
             List {
-                Section("General Settings") {
-
+                Section("phone_section") {
+                    Toggle("face_id_toggle", isOn: $faceIDLock)
+                        .font(.body)
+                    Toggle("background_refresh_toggle", isOn: $backgroundRefresh)
+                        .font(.body)
+                        .onChange(of: backgroundRefresh) {
+                            #if os(iOS)
+                            if backgroundRefresh {
+                                MailRefresh.requestNotificationPermission()
+                                MailRefresh.schedule()
+                            }
+                            #endif
+                        }
+                    Text("idle_foreground_only")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                 }
                 Section("accounts_heading") {
                     ForEach(accountManager.allAccounts) { account in
@@ -29,7 +45,7 @@ struct GeneralSettingsView: View {
                             } label: {
                                 Label("options_button", systemImage: "ellipsis")
                                     .labelStyle(.iconOnly)
-                                    .foregroundStyle(.black)
+                                    .foregroundStyle(.primary)
                             }.compositingGroup()
 
                         }
@@ -37,7 +53,7 @@ struct GeneralSettingsView: View {
                     NavigationLink(destination: {
                         ManualAccount()
                     }) {
-                        Label("Add Account", systemImage: "plus")
+                        Label("add_account_header", systemImage: "plus")
                     }.navigationLinkIndicatorVisibility(.hidden)
                 }
                 Section("Miscellaneous") {

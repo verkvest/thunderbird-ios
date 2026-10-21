@@ -27,6 +27,7 @@ public struct Email: CustomStringConvertible, Identifiable, Sendable {
     public var labels: Set<GmailLabel>
     public let blobID: String?
     public let uid: UID?
+    public var sequence: Int?
 
     public init(
         from: [EmailAddressProtocol] = [],
@@ -46,6 +47,7 @@ public struct Email: CustomStringConvertible, Identifiable, Sendable {
         labels: Set<GmailLabel> = [],
         blobID: String? = nil,
         uid: UID? = nil,
+        sequence: Int? = nil,
         id: String? = nil
     ) {
         self.from = from
@@ -65,6 +67,7 @@ public struct Email: CustomStringConvertible, Identifiable, Sendable {
         self.labels = labels
         self.blobID = blobID
         self.uid = uid
+        self.sequence = sequence
         self.id = id ?? UUID().uuidString(1)
     }
 

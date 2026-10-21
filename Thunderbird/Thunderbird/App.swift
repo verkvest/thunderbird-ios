@@ -9,10 +9,15 @@ import SwiftUI
 struct App: SwiftUI.App {
     init() {
         OAuth2.configurations = OAuth2.Configuration.allCases
+        #if os(iOS)
+        MailRefresh.register()
+        #endif
     }
 
     @State private var accountManager: AccountManager = AccountManager()
     @State private var mailboxManager: UnifiedMailboxManager = UnifiedMailboxManager()
+    @State private var mailboxModel: MailboxModel = MailboxModel()
+    @State private var appLock: AppLock = AppLock()
     @State private var featureFlags: FeatureFlags = FeatureFlags(distribution: .current)
     @State private var showAlert = false
 
@@ -23,6 +28,8 @@ struct App: SwiftUI.App {
                 ContentView()
                     .environment(accountManager)
                     .environment(mailboxManager)
+                    .environment(mailboxModel)
+                    .environment(appLock)
                     .environment(featureFlags)
                 if showAlert {
                     FeatureNotImplementedView()

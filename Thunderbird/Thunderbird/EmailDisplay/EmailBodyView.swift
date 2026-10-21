@@ -13,6 +13,7 @@ struct EmailBodyView: View {
     @State private var textAttributes = TextAttributes()
     @FocusState private var keyboardShown: Bool
     @State var email: Email?
+    var draft: ComposeDraft? = nil
     let editable: Bool
 
     var focusBinding: Binding<Bool> {
@@ -32,7 +33,7 @@ struct EmailBodyView: View {
         ZStack(alignment: .bottom) {
             ScrollView {
                 if (editable) {
-                    ComposeHeaderView(email: email)
+                    ComposeHeaderView(email: email, draft: draft)
                 }
                 RichHTMLEditor(html: $html, selection: $selection, editable: editable, textAttributes: textAttributes)
                     .handleLinkOpening(perform: { URL in
@@ -53,7 +54,11 @@ struct EmailBodyView: View {
             }
         }
         .onAppear {
-            html = email?.body?.html() ?? ""
+            html = draft?.html.isEmpty == false ? (draft?.html ?? "") : (email?.body?.html() ?? "")
+            draft?.html = html
+        }
+        .onChange(of: html) {
+            draft?.html = html
         }
     }
 }

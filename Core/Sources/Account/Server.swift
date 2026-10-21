@@ -93,6 +93,7 @@ extension IMAP.Server {
             hostname: server.hostname,
             username: server.username,
             password: authorization.rawValue,
+            authentication: server.authenticationType == .oAuth2 ? .xoauth2 : .password,
             port: server.port
         )
     }
@@ -125,17 +126,16 @@ extension SMTP.Server {
         guard server.serverProtocol == .smtp else {
             throw SMTPError.serverProtocolMismatch
         }
-        guard server.authenticationType != .oAuth2 else {
-            throw SMTPError.oAuth2NotSupported
-        }
         guard let security = SMTP.ConnectionSecurity(rawValue: server.connectionSecurity.rawValue) else {
             throw SMTPError.requiredTLSNotConfigured
         }
+        let authentication: SMTP.Server.Authentication = server.authenticationType == .oAuth2 ? .xoauth2 : .plain
         self.init(
             security,
             hostname: server.hostname,
             username: server.username,
             password: authorization.rawValue,
+            authentication: authentication,
             port: server.port
         )
     }
@@ -159,10 +159,10 @@ extension Server {
 }
 
 extension Server.ConnectionSecurity {
-    init(_ socketType: EmailProvider.Server.SocketType, for serverProtocol: ServerProtocol? = nil) {
+    /// ISPDB `SSL` is implicit TLS (IMAP 993, SMTP 465). `STARTTLS` stays STARTTLS (SMTP 587).
+    init(_ socketType: EmailProvider.Server.SocketType) {
         switch socketType {
         case .ssl:
-            guard serverProtocol != .smtp else { fallthrough }  // SMTP only supports STARTTLS; override autoconfig
             self = .tls
         case .startTLS:
             self = .startTLS

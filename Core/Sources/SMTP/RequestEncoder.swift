@@ -13,6 +13,8 @@ enum Request {
     case authLogin
     case authUser(String)
     case authPassword(String)
+    case authPlain(String)
+    case authXOAuth2(String)
     case mailFrom(EmailAddress)
     case recipient(EmailAddress)
     case data
@@ -35,6 +37,10 @@ struct RequestEncoder: MessageToByteEncoder {
             out.writeString("AUTH LOGIN")
         case .authUser(let value), .authPassword(let value):
             out.writeBytes((value.data(using: .utf8) ?? Data()).base64EncodedData())
+        case .authPlain(let value):
+            out.writeString("AUTH PLAIN \(value)")
+        case .authXOAuth2(let value):
+            out.writeString("AUTH XOAUTH2 \(value)")
         case .mailFrom(let emailAddress):
             out.writeString("MAIL FROM:<\(emailAddress.value)>")
         case .recipient(let emailAddress):
@@ -44,6 +50,9 @@ struct RequestEncoder: MessageToByteEncoder {
         case .transferData(let email):
             out.writeString("From: \(email.sender)\(crlf)")
             out.writeString("To: \(email.recipients.map { $0.description }.joined(separator: " "))\(crlf)")
+            if !email.copied.isEmpty {
+                out.writeString("Cc: \(email.copied.map { $0.description }.joined(separator: " "))\(crlf)")
+            }
             out.writeString("Date: \(email.date.rfc822Format())\(crlf)")
             out.writeString("Message-ID: \(email.messageID)\(crlf)")
             out.writeString("Subject: \(email.subject)\(crlf)")

@@ -4,10 +4,17 @@
 
 /// ``SMTPClient`` connects to `Server`.
 public struct Server: CustomStringConvertible, Equatable, Sendable {
+    public enum Authentication: String, Equatable, Sendable {
+        case login
+        case plain
+        case xoauth2
+    }
+
     public let connectionSecurity: ConnectionSecurity
     public let hostname: String
     public let username: String
     public let password: String
+    public let authentication: Authentication
     public let port: Int
 
     public init(
@@ -15,12 +22,14 @@ public struct Server: CustomStringConvertible, Equatable, Sendable {
         hostname: String,
         username: String,
         password: String,
+        authentication: Authentication = .login,
         port: Int = 587
     ) {
         self.connectionSecurity = connectionSecurity
         self.hostname = hostname
         self.username = username
         self.password = password
+        self.authentication = authentication
         self.port = port
     }
 

@@ -197,24 +197,35 @@ extension Account {
 extension Account {
     var imapClient: IMAPClient {
         get async throws {
-            if let client: IMAPClient = Self.clients[id] as? IMAPClient {
-                // IMAP Client already exists for account ID; reconnect and return
+            let authorization: Authorization = try await renewedAuthorization()
+            var copy: Self = self
+            if authorization != self.authorization {
+                copy.authorization = authorization
+            }
+            guard let incomingServer else {
+                throw IMAPError.serverProtocolMismatch
+            }
+            let server: IMAP.Server = try IMAP.Server(incomingServer, authorization: copy.authorization)
+            if let client: IMAPClient = Self.clients[id] as? IMAPClient, client.server == server {
+                if client.isIdling {
+                    try await client.done()
+                }
                 if !client.isConnected {
                     try await client.connect()
                     try await client.login()
                 }
                 return client
-            } else {
-                // No client exists for account ID; make a new one, connect and return
-                guard let incomingServer else {
-                    throw IMAPError.serverProtocolMismatch
-                }
-                let client: IMAPClient = IMAPClient(try IMAP.Server(incomingServer, authorization: authorization))
-                try await client.connect()
-                try await client.login()
-                Self.clients[id] = client  // Donate to shared pool
-                return client
             }
+            if let client: IMAPClient = Self.clients[id] as? IMAPClient {
+                if client.isIdling { try? await client.done() }
+                try? client.disconnect()
+                Self.clients[id] = nil
+            }
+            let client: IMAPClient = IMAPClient(server)
+            try await client.connect()
+            try await client.login()
+            Self.clients[id] = client
+            return client
         }
     }
 
@@ -237,18 +248,36 @@ extension Account {
         }
     }
 
-    // Share existing IMAP and JMAP clients associated with account
+    // Share existing IMAP and JMAP clients associated with account.
+    // `private` is limited to this file, so other Account files call `dropCachedClient()`.
     nonisolated(unsafe) private static var clients: [UUID: Any] = [:]
+
+    func dropCachedClient() {
+        Self.clients[id] = nil
+    }
+
+    func cachedIMAPClient() -> IMAPClient? {
+        Self.clients[id] as? IMAPClient
+    }
 }
 
 extension Account {
-    public func emails(in mailbox: Mailbox = Mailbox("INBOX", role: .inbox)) async throws -> [Email] {
+    /// Newest `limit` headers. Pass `olderThan` (a sequence number already shown) to load the previous page.
+    /// Sequence 1 is the oldest message. The default page is 40 headers and does not download bodies.
+    public func emails(in mailbox: Mailbox = Mailbox("INBOX", role: .inbox), limit: Int = MailboxPages.size, olderThan sequence: Int? = nil) async throws -> [Email] {
         switch emailProtocol {
         case .imap:
             let client: IMAPClient = try await imapClient
-            try await client.select(mailbox: IMAP.Mailbox.Name(mailbox.name))
-            let messages: MessageSet = try await client.fetch()
-            return messages.keys.sorted().reversed().map { Email(messages[$0]!) }
+            let status: IMAP.Mailbox.Status = try await client.select(mailbox: IMAP.Mailbox.Name(mailbox.name))
+            let total: Int = status.messageCount ?? 0
+            let visible: Int = sequence.map { min(max($0 - 1, 0), total) } ?? total
+            guard let set: SequenceSet = SequenceSet.newest(limit: limit, messageCount: visible) else { return [] }
+            let messages: MessageSet = try await client.fetch(set)
+            return messages.keys.sorted().reversed().map { key in
+                var email: Email = Email(messages[key]!)
+                email.sequence = Int(key.rawValue)
+                return email
+            }
         case .jmap:
             throw AccountError.emailAddressNotSupported
         }

@@ -28,10 +28,10 @@ struct InboxIcon: View {
         ZStack {
             ZStack {
                 ZStack {
-                    Layer0().fill(tinted ? .accent : .black).stroke(tinted ? .accent : .clear)
+                    Layer0().fill(tinted ? .accent : .primary).stroke(tinted ? .accent : .clear)
                 }
                 ZStack {
-                    Layer1().fill(tinted ? .accent : .black).stroke(tinted ? .accent : .clear)
+                    Layer1().fill(tinted ? .accent : .primary).stroke(tinted ? .accent : .clear)
                 }
                 .compositingGroup()
                 .opacity(0.2)
@@ -166,12 +166,12 @@ struct DraftIcon: View {
         ZStack {
             ZStack {
                 ZStack {
-                    Layer0().fill(tinted ? .accent : .black).stroke(tinted ? .accent : .clear)
+                    Layer0().fill(tinted ? .accent : .primary).stroke(tinted ? .accent : .clear)
                 }
                 .compositingGroup()
                 .opacity(0.2)
                 ZStack {
-                    Layer1().fill(tinted ? .accent : .black).stroke(tinted ? .accent : .clear)
+                    Layer1().fill(tinted ? .accent : .primary).stroke(tinted ? .accent : .clear)
                 }
             }
         }
@@ -277,12 +277,12 @@ struct SentIcon: View {
         ZStack {
             ZStack {
                 ZStack {
-                    Layer0().fill(tinted ? .accent : .black).stroke(tinted ? .accent : .clear)
+                    Layer0().fill(tinted ? .accent : .primary).stroke(tinted ? .accent : .clear)
                 }
                 .compositingGroup()
                 .opacity(0.2)
                 ZStack {
-                    Layer1().fill(tinted ? .accent : .black).stroke(tinted ? .accent : .clear)
+                    Layer1().fill(tinted ? .accent : .primary).stroke(tinted ? .accent : .clear)
                 }
             }
         }
@@ -369,12 +369,12 @@ struct ArchiveIcon: View {
         ZStack {
             ZStack {
                 ZStack {
-                    Layer0().fill(tinted ? .accent : .black).stroke(tinted ? .accent : .clear)
+                    Layer0().fill(tinted ? .accent : .primary).stroke(tinted ? .accent : .clear)
                 }
                 .compositingGroup()
                 .opacity(0.2)
                 ZStack {
-                    Layer1().fill(tinted ? .accent : .black).stroke(tinted ? .accent : .clear)
+                    Layer1().fill(tinted ? .accent : .primary).stroke(tinted ? .accent : .clear)
                 }
             }
         }
@@ -533,12 +533,12 @@ struct TrashIcon: View {
         ZStack {
             ZStack {
                 ZStack {
-                    Layer0().fill(tinted ? .accent : .black).stroke(tinted ? .accent : .clear)
+                    Layer0().fill(tinted ? .accent : .primary).stroke(tinted ? .accent : .clear)
                 }
                 .compositingGroup()
                 .opacity(0.2)
                 ZStack {
-                    Layer1().fill(tinted ? .accent : .black).stroke(tinted ? .accent : .clear)
+                    Layer1().fill(tinted ? .accent : .primary).stroke(tinted ? .accent : .clear)
                 }
             }
         }
@@ -678,12 +678,12 @@ struct SpamIcon: View {
         ZStack {
             ZStack {
                 ZStack {
-                    Layer0().fill(tinted ? .accent : .black).stroke(tinted ? .accent : .clear)
+                    Layer0().fill(tinted ? .accent : .primary).stroke(tinted ? .accent : .clear)
                 }
                 .compositingGroup()
                 .opacity(0.2)
                 ZStack {
-                    Layer1().fill(tinted ? .accent : .black).stroke(tinted ? .accent : .clear)
+                    Layer1().fill(tinted ? .accent : .primary).stroke(tinted ? .accent : .clear)
                 }
             }
         }
@@ -756,12 +756,12 @@ struct FolderIcon: View {
         ZStack {
             ZStack {
                 ZStack {
-                    Layer0().fill(tinted ? .accent : .black).stroke(tinted ? .accent : .clear)
+                    Layer0().fill(tinted ? .accent : .primary).stroke(tinted ? .accent : .clear)
                 }
                 .compositingGroup()
                 .opacity(0.2)
                 ZStack {
-                    Layer1().fill(tinted ? .accent : .black).stroke(tinted ? .accent : .clear)
+                    Layer1().fill(tinted ? .accent : .primary).stroke(tinted ? .accent : .clear)
                 }
             }
         }

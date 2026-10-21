@@ -11,20 +11,22 @@ struct MailboxDropdownRowView: View {
     @State private var isExpanded: Bool = false
     var folder: Folder
     var tempHasNew: Bool = false
+    var onSelect: (Folder) -> Void = { _ in }
 
     var body: some View {
         if folder.subfolders.count > 0 {
             DisclosureGroup(isExpanded: $isExpanded) {
                 ForEach(folder.subfolders) { subfolder in
-                    MailboxDropdownRowView(folder: subfolder)
+                    MailboxDropdownRowView(folder: subfolder, onSelect: onSelect)
                 }
             } label: {
                 HStack {
-                    (iconSwitcher(folderName: folder.name!, tinted: tempHasNew)).frame(width: 24, height: 24)
-                    Text(folder.name!)
-                        .foregroundStyle(.black)
+                    (iconSwitcher(folderName: folder.name ?? "", tinted: tempHasNew)).frame(width: 24, height: 24)
+                    Text(folder.name ?? "")
+                        .font(.body)
+                        .foregroundStyle(.primary)
                     Spacer()
-                    if (!isExpanded && folder.unreadEmails! > 0) {
+                    if !isExpanded && (folder.unreadEmails ?? 0) > 0 {
                         UnreadCounter(unreadCount: folder.aggregatedUnreadCount(), hasNew: false)
                     }
                 }
@@ -32,16 +34,17 @@ struct MailboxDropdownRowView: View {
                 .padding(.leading)
         } else {
             HStack {
-                (iconSwitcher(folderName: folder.name!, tinted: tempHasNew)).frame(width: 24, height: 24)
-                Text(folder.name!)
-                    .foregroundStyle(.black)
+                (iconSwitcher(folderName: folder.name ?? "", tinted: tempHasNew)).frame(width: 24, height: 24)
+                Text(folder.name ?? "")
+                    .font(.body)
+                    .foregroundStyle(.primary)
                 Spacer()
-                if folder.unreadEmails! > 0 {
+                if (folder.unreadEmails ?? 0) > 0 {
                     UnreadCounter(unreadCount: folder.aggregatedUnreadCount(), hasNew: false)
                 }
             }
             .onTapGesture {
-                //TODO: Load relevant email list
+                onSelect(folder)
             }
             .padding(.leading)
             .font(.subheadline)

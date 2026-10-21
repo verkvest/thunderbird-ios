@@ -33,6 +33,10 @@ struct AuthorizationView: View {
                 PasswordField("account_server_settings_authentication_password_cleartext", text: $password)
                     .onChange(of: password) { account.password = password }
                     .onAppear { password = account.password }
+                Text("password_app_password_hint")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             case .none:
                 EmptyView()
             }

@@ -21,5 +21,15 @@
 	<string>$(GOOGLE_OAUTH_CLIENT_ID)</string>
 	<key>GoogleOAuthURLScheme</key>
 	<string>$(GOOGLE_OAUTH_URL_SCHEME)</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Unlock your mail with Face ID. The passcode works when Face ID is unavailable.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+	</array>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.verkvest.thunderbird.refresh</string>
+	</array>
 </dict>
 </plist>

@@ -57,7 +57,23 @@ public class IMAPClient {
 
     /// Log in to connected IMAP server using configured ``Server`` credentials.
     public func login() async throws {
-        try await login(username: server.username ?? "", password: server.password ?? "")
+        switch server.authentication {
+        case .xoauth2:
+            try await authenticateXOAuth2(username: server.username ?? "", accessToken: server.password ?? "")
+        case .password:
+            try await login(username: server.username ?? "", password: server.password ?? "")
+        }
+    }
+
+    /// `AUTHENTICATE XOAUTH2` using the current access token. The token is not logged.
+    public func authenticateXOAuth2(username: String, accessToken: String) async throws {
+        logger?.info("Authenticating \(username) with XOAUTH2…")
+        let capabilities: [Capability] = try await execute(command: AuthenticateCommand(username: username, accessToken: accessToken))
+        if !capabilities.isEmpty {
+            for capability in capabilities {
+                self.capabilities.insert(capability)
+            }
+        }
     }
 
     /// Log in to connected IMAP ``Server`` using locally specified credentials.
@@ -204,6 +220,57 @@ public class IMAPClient {
     public func fetch(uid set: UIDSet, attributes: [FetchAttribute] = .header) async throws -> MessageSet {
         logger?.info("Fetching messages by UID…")
         return try await execute(command: UIDFetchCommand(set, attributes: attributes.filtered(capabilities)))
+    }
+
+    /// Add, remove, or replace flags on one message.
+    public func store(uid: UID, data: StoreData) async throws {
+        if isIdling { try await done() }
+        try await execute(command: UIDStoreCommand(UIDSet(uid), data: data))
+    }
+
+    public func changeFlags(_ flags: [Flag], uid: UID, add: Bool) async throws {
+        let stored: StoreFlags = add ? .add(silent: true, list: flags) : .remove(silent: true, list: flags)
+        try await store(uid: uid, data: .flags(stored))
+    }
+
+    /// Move one message to another mailbox.
+    public func move(uid: UID, to mailbox: MailboxName) async throws {
+        if isIdling { try await done() }
+        try await execute(command: UIDMoveCommand(UIDSet(uid), to: mailbox))
+    }
+
+    /// APPEND a complete RFC 822 message. Gmail does not need this after SMTP.
+    public func append(_ message: Data, to mailbox: MailboxName) async throws {
+        if isIdling { try await done() }
+        logger?.info("Appending \(message.count) bytes to \(mailbox)…")
+        guard let channel, channel.isActive else {
+            throw IMAPError.notConnected
+        }
+        let tag: String = UUID().uuidString(1)
+        let promise: EventLoopPromise<Void> = channel.eventLoop.makePromise(of: Void.self)
+        let handler: AppendAckHandler = AppendAckHandler(tag: tag, promise: promise)
+        let seconds: Int64 = .timeout
+        let task: Scheduled = group.next().scheduleTask(in: .seconds(seconds)) {
+            promise.fail(IMAPError.timedOut(seconds: seconds))
+        }
+        defer {
+            channel.pipeline.removeHandler(handler, promise: nil)
+            task.cancel()
+        }
+        try await channel.pipeline.addHandler(handler).get()
+        var bytes: ByteBuffer = ByteBuffer()
+        bytes.writeBytes(message)
+        let parts: [CommandStreamPart] = [
+            .append(.start(tag: tag, appendingTo: mailbox)),
+            .append(.beginMessage(message: AppendMessage(options: AppendOptions(flagList: [.seen]), data: AppendData(byteCount: message.count)))),
+            .append(.messageBytes(bytes)),
+            .append(.endMessage),
+            .append(.finish)
+        ]
+        for part in parts {
+            try await channel.writeAndFlush(IMAPClientHandler.OutboundIn.part(part)).get()
+        }
+        try await promise.futureResult.get()
     }
 
     /// Fetch a specific message by ``UID``; fetches complete message by default.
@@ -367,6 +434,35 @@ private extension NIOSSLContext {
 
 private func TLSClientHandler(serverHostname: String? = nil) -> NIOSSLClientHandler {
     try! NIOSSLClientHandler(context: .ssl, serverHostname: serverHostname)
+}
+
+private final class AppendAckHandler: IMAPCommandHandler, @unchecked Sendable {
+    typealias InboundIn = Response
+    typealias InboundOut = Response
+    typealias Result = Void
+
+    var clientBug: String? = nil
+    let promise: EventLoopPromise<Void>
+    let tag: String
+
+    required init(tag: String, promise: EventLoopPromise<Void>) {
+        self.promise = promise
+        self.tag = tag
+    }
+
+    func channelRead(context: ChannelHandlerContext, data: NIOAny) {
+        let response: Response = unwrapInboundIn(data)
+        clientBug = response.clientBug
+        if case .tagged(let tagged) = response {
+            switch tagged.state {
+            case .ok:
+                promise.succeed(())
+            case .bad(let text), .no(let text):
+                promise.fail(IMAPError.commandFailed(text.text))
+            }
+        }
+        context.fireChannelRead(data)
+    }
 }
 
 private extension ResponseParser.Options {

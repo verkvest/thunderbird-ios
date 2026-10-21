@@ -43,6 +43,9 @@ struct AccountAutoView: View {
         do {
             jmapAccount = try? await account.jmapConfigured()
             account = try await account.autoconfigured()
+            var configured: Account = account
+            await configured.preferPasswordWhenOAuthUnavailable()
+            account = configured
         } catch {
             accountManager.error = AccountError(error) ?? .autoconfig(error)
         }

@@ -29,10 +29,7 @@ public final class MailboxManager {
         do {
             switch account.emailProtocol {
             case .imap:
-                let client: IMAPClient = try await account.imapClient
-                try await client.select(mailbox: IMAP.Mailbox.Name(mailbox.name))
-                let messages: MessageSet = try await client.fetch()
-                return messages.keys.sorted().reversed().map { Email(messages[$0]!) }
+                return try await account.emails(in: mailbox)
             case .jmap:
                 let client: JMAPClient = try await account.jmapClient
                 let emails: [JMAP.Email] = try await client.emails(in: JMAP.Mailbox(name: mailbox.name, id: mailbox.id))

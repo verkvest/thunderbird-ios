@@ -31,7 +31,8 @@ struct DrawerView: View {
                             ToolbarItem(id: "settings", placement: .bottom) {
                                 NavigationLink(destination: GeneralSettingsView()) {
                                     Text("settings_header")
-                                        .foregroundStyle(.black)
+                                        .font(.body)
+                                        .foregroundStyle(.primary)
                                 }
                             }
                             ToolbarItem(placement: .bottom) {
@@ -39,8 +40,9 @@ struct DrawerView: View {
                             }
                         }
                     }
-                    .padding()
-                    .background(.surface)
+                    .padding(8)
+                    .frame(maxWidth: 320)
+                    .background(Color.drawerBackground)
                     Spacer()
                 }
                 .transition(.move(edge: .leading))
@@ -53,24 +55,59 @@ struct DrawerView: View {
 
 #Preview("Account Drawer") {
     @Previewable @State var accountManager: AccountManager = AccountManager()
+    @Previewable @State var mailbox: MailboxModel = MailboxModel()
     @Previewable @State var showDrawer: Bool = true
 
     DrawerView(showDrawer: $showDrawer)
         .environment(accountManager)
+        .environment(mailbox)
 }
 
 struct DrawerContent: View {
     @Environment(AccountManager.self) private var accountManager: AccountManager
+    @Environment(MailboxModel.self) private var mailbox: MailboxModel
     @Binding var showDrawer: Bool
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 8) {
+            Button {
+                Task {
+                    await mailbox.select(accountID: nil, mailbox: "INBOX", accounts: accountManager.allAccounts)
+                    showDrawer = false
+                }
+            } label: {
+                Label("unified_inbox", systemImage: "tray.2")
+                    .font(.body)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .buttonStyle(.plain)
             ForEach(accountManager.allAccounts) { account in
-                let mailboxes: FolderManager = FolderManager(account: account)
-                AccountFolderDisclosureView()
-                    .environment(mailboxes)
+                AccountFolderDisclosureView(account: account) { folder in
+                    Task {
+                        await mailbox.select(accountID: account.id, mailbox: folder.mailbox.name, accounts: accountManager.allAccounts)
+                        showDrawer = false
+                    }
+                }
             }
         }
+    }
+}
+
+extension Color {
+    static var drawerBackground: Color {
+        #if os(iOS)
+        Color(uiColor: .secondarySystemBackground)
+        #else
+        Color(nsColor: .windowBackgroundColor)
+        #endif
+    }
+
+    static var drawerCard: Color {
+        #if os(iOS)
+        Color(uiColor: .tertiarySystemBackground)
+        #else
+        Color(nsColor: .controlBackgroundColor)
+        #endif
     }
 }
 

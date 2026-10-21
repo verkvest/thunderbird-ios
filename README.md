@@ -8,22 +8,29 @@ This environment has no Mac and no Apple credentials, so the app has not been co
 
 ## What the code does today
 
-Upstream’s README still says mail is not implemented. That text is behind the code at the imported commit.
+This environment has no Mac, so none of the following was compiled or run here. The first compile is still **Xcode Build** on GitHub. Unit tests are written for the Swift Testing runner on that Mac; they were not executed on Linux.
 
-- Account setup UI: autoconfig (Thunderbird ISPDB), manual IMAP/SMTP/JMAP servers, a password field, and an OAuth browser sheet.
-- IMAP library: connect, `LOGIN`, list, fetch, flags, idle. The inbox screen calls `account.emails()` for the first account and shows those messages when the fetch returns at least one.
-- Until that fetch returns mail, the inbox shows **sample messages**, with a banner saying so.
-- SMTP library can construct a client for implicit TLS (port 465) and STARTTLS, including the host and port from autoconfig. The compose screen’s send button does not call it.
-- JMAP exists for Fastmail setup. Loading the inbox for a JMAP account throws and the sample list stays.
+The inbox is a real mailbox, not sample messages.
 
-## What does not work
+- Several accounts: a menu switches one inbox, or **All inboxes** merges them. Each account is fetched on its own, so one failure does not clear the others. The error line is the account name.
+- Password and app-password sign-in. If ISPDB lists OAuth2 but this app has no client for that host (mail.ru, list.ru, bk.ru, inbox.ru), setup switches the account to **Password**.
+- Folders come from IMAP `LIST` and open from the side drawer.
+- Opening a message selects that mailbox and fetches the body by UID.
+- Compose **Send** talks SMTP. Port 465 is implicit TLS. Port 587 is STARTTLS, then a second `EHLO`, then auth. Auth is `AUTH PLAIN`, `AUTH LOGIN`, or `AUTH XOAUTH2`. Reply, reply-all, and forward fill the draft.
+- After a successful send, the message is `APPEND`ed to Sent (names such as Sent, Sent Mail, Отправленные, Enviados). Gmail (`smtp.gmail.com`) is skipped because Gmail stores the Sent copy itself. The APPEND writer is untested against a live server: it streams the literal and waits for a tagged `OK`. If a server’s continuation handshake does not match NIOIMAP, saving to Sent can stall even when SMTP already accepted the message.
+- **Gmail OAuth.** IMAP uses `AUTHENTICATE XOAUTH2` and SMTP uses `AUTH XOAUTH2` with the Google access token. The SASL string is `user={email}\u{1}auth=Bearer {token}\u{1}\u{1}`. An expired token is refreshed over HTTPS before connect, and the new token is written only to the Keychain. Passwords and tokens are not written into the mail cache.
+- A personal Google **iOS** OAuth client is what makes that token valid for bundle `com.verkvest.thunderbird`. Scope in the app is `https://mail.google.com/`. Without that client, the fallback is a Gmail app password and the Password authentication type. Upstream’s public client ids remain for other providers; their redirects still use `net.thunderbird.ios` and `msauth.net.thunderbird.ios`.
+- JMAP inbox loading still throws. Fastmail setup is unchanged.
 
-- **Gmail.** The Google sign-in sheet can run, but IMAP logs in with the `LOGIN` command. Gmail expects `AUTHENTICATE XOAUTH2`, so a Google access token does not open the mailbox. There is no mail.ru OAuth client either. mail.ru, inbox.ru, bk.ru, and list.ru are in the ISPDB; autoconfig prefers OAuth2, and the authentication picker can be switched to **Password**. mail.ru expects an app password for external clients. Reading INBOX over password IMAP is the path that is actually wired up.
-- **Sending mail, push, real folder lists.** Compose does not send. The drawer does not load mailboxes from the server (`MailboxDropdownRowView` still has a “load the list” TODO).
-- **OAuth client ids** for AOL, Fastmail, Google, Microsoft, Thundermail, and Yahoo are the public ids from upstream. Redirect schemes stay `net.thunderbird.ios` and `msauth.net.thunderbird.ios` so those registrations still match. A personal Google iOS client can be injected at build time with the `GOOGLE_OAUTH_CLIENT_ID` and `GOOGLE_OAUTH_URL_SCHEME` secrets. That fixes the browser step only.
-- The upstream OAuth callback listened on the first URL scheme, while Microsoft’s redirect uses `msauth.` plus that scheme. The callback now uses the scheme from the redirect URI.
+### iPhone
 
-Minimum OS is iOS 18 (iPhone XR and newer).
+- Launch shows the cached headers first, then refreshes. The list is a lazy `List`. Each page is 40 headers. The last row loads the next page. Bodies are cached after they are opened. The cache is JSON under Application Support and does not store credentials.
+- Swipe: archive, delete, mark read or unread, flag. Pull to refresh. Semantic colors for Dark Mode, Dynamic Type text styles, and a light haptic when a swipe action runs.
+- Attachments can be handed to the system share sheet.
+- Settings has a Face ID lock (device passcode if Face ID is unavailable) and a background mail check. The background task is `com.verkvest.thunderbird.refresh`: a short IMAP `STATUS`, then disconnect. It does not use IDLE. IDLE runs only while the app is in the foreground and a single account is selected. Low Power Mode skips scheduling another background check. A new unseen count posts a local notification.
+- The drawer is capped at 320 points. Compose padding tightens on a compact width. Strings for the new screens are in English, Russian, and Spanish. Other languages fall back to English.
+
+Minimum OS is iOS 18 (iPhone XR and newer). Smaller phones in that set, including SE-sized widths, use the same layouts.
 
 ## CI
 
