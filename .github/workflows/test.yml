@@ -36,7 +36,12 @@ jobs:
           xcode-select-version: ${{ env.XCODE_VERSION }}
 
       - name: Ensure iOS Simulator Runtime installed
-        run: xcodebuild -downloadPlatform iOS
+        run: |
+          if xcrun simctl list runtimes | grep -q "iOS 26"; then
+            echo "iOS 26 simulator runtime already installed"
+          else
+            xcodebuild -downloadPlatform iOS
+          fi
 
       - name: Resolve package dependencies
         run: |
