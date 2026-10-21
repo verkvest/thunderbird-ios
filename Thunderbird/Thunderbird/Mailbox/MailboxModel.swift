@@ -215,7 +215,7 @@ final class MailboxModel {
         if !failures.isEmpty {
             errorMessage = failures.joined(separator: ", ")
         }
-        let merged: [MailHeader] = MailboxPages.merge(pages.map { page in
+        let mailPages: [[MailHeader]] = pages.map { page in
             page.map { header in
                 MailHeader(
                     id: header.id,
@@ -227,7 +227,8 @@ final class MailboxModel {
                     subject: header.subject
                 )
             }
-        }, limit: MailboxPages.size)
+        }
+        let merged: [MailHeader] = MailboxPages.merge(mailPages, limit: MailboxPages.size)
         let byID: [String: MailCache.Header] = Dictionary(pages.flatMap { $0 }.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         return merged.compactMap { byID[$0.id] }
     }
