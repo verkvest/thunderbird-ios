@@ -45,7 +45,7 @@ struct OAuthButton: View {
             let pkce: OAuth2.PKCE = OAuth2.PKCE()
             let authURL: URL = try await webAuthenticationSession.authenticate(
                 using: authConfig.authURL(hint: emailAddress.value, pkce: pkce),
-                callback: .customScheme("\(Bundle.main.schemes.first!)"), additionalHeaderFields: [:]
+                callback: .customScheme(callbackScheme(authConfig.redirectURI)), additionalHeaderFields: [:]
             )
             let code: String = try authURL.code
             await getToken(code: code, pkce: pkce)
@@ -103,6 +103,14 @@ struct OAuthButton: View {
             await configure()
         }
     }
+}
+
+/// Scheme of an OAuth redirect URI (`scheme:/path` or `scheme://host`).
+private func callbackScheme(_ redirectURI: String) -> String {
+    if let scheme: String = URL(string: redirectURI)?.scheme, !scheme.isEmpty {
+        return scheme
+    }
+    return String(redirectURI.prefix { $0 != ":" })
 }
 
 #Preview("OAuth Button") {

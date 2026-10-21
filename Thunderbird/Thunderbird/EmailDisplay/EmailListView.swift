@@ -49,6 +49,11 @@ struct EmailListView: View {
                     }
                 } else {
                     VStack {
+                        Text("inbox_sample_banner")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
                         List(TempEmail.sampleData, id: \.uuid, selection: $selections) { email in
                             NavigationLink(destination: {
                                 ReadEmailView(email)

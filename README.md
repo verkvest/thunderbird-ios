@@ -1,49 +1,41 @@
-# Thunderbird for iOS
+# Thunderbird for iOS — personal TestFlight fork
 
-Welcome to Thunderbird for iOS! This project aims to bring the Thunderbird email experience to iOS devices. Thunderbird for iOS is a ground up development effort to create a high-quality email client tailored for iOS.
+Personal build of [Thunderbird for iOS](https://github.com/thunderbird/thunderbird-ios) so it can be installed on one iPhone through TestFlight with an Individual Apple Developer account, including from a machine that is not a Mac.
 
-## Current Status
+The imported upstream commit is `cb338c68151cc6ed5fc755bbc38d260a4c0ca8b7` (2026-10-15, “Merge pull request #553”). License remains [MPL-2.0](LICENSE). See [UPSTREAM.md](UPSTREAM.md) for how to merge later upstream changes. The step-by-step owner guide is [README_RU.md](README_RU.md).
 
-This repository is at an early stage of development. Here’s what you need to know:
+This environment has no Mac and no Apple credentials, so the app has not been compiled here. The first real compile is the **Xcode Build** workflow on a GitHub-hosted `macos-26` runner. The first installable build is **Personal TestFlight**, after the signing secrets exist.
 
-- **Development Focus:** Establishing the app’s architecture, backend integration, and foundational features.
-- **Functionality:** Not yet functional or ready for production use. Key features like reading and writing emails will follow in future stages.
-- **Vision:** Design a mobile email platform that enhances user efficiency through focused triage, seamless desktop integration, and a suite of productivity-enhancing services.
+## What the code does today
 
-Our current goal is to have a version of Thunderbird for iOS available on Apple's Testflight for early testing. The full
-App Store release will come at a later stage, and most certainly include standard features you'd expect from an email client.
+Upstream’s README still says mail is not implemented. That text is behind the code at the imported commit.
 
-## Contributing
+- Account setup UI: autoconfig (Thunderbird ISPDB), manual IMAP/SMTP/JMAP servers, a password field, and an OAuth browser sheet.
+- IMAP library: connect, `LOGIN`, list, fetch, flags, idle. The inbox screen calls `account.emails()` for the first account and shows those messages when the fetch returns at least one.
+- Until that fetch returns mail, the inbox shows **sample messages**, with a banner saying so.
+- SMTP library can construct a client for implicit TLS (port 465) and STARTTLS, including the host and port from autoconfig. The compose screen’s send button does not call it.
+- JMAP exists for Fastmail setup. Loading the inbox for a JMAP account throws and the sample list stays.
 
-At this stage, the project is still being built from the ground up. While it might not be ready for active contributions yet, here’s how you can help:
+## What does not work
 
-- **Report Issues:** Use the [GitHub issue tracker](https://github.com/thunderbird/thunderbird-ios/issues/new) to report ideas or potential problems, helping us refine the vision.
-- **Follow Development:** Stay updated on progress by following the repository and community discussions at Matrix: [#tb-mobile-dev:mozilla.org](https://matrix.to/#/#tb-mobile-dev:mozilla.org).
-- **Prepare to Contribute:** Familiarize yourself with the project and keep an eye on the [CONTRIBUTING](docs/CONTRIBUTING.md) guide for updates on contribution guidelines.
-- **Translate** Do you speak a language aside from English? [Translating is easy](https://hosted.weblate.org/projects/tb-android/) and just takes a few minutes for your first success.
-- **Support Thunderbird:** Our mobile and desktop applications are funded through financial contributions by users like you. You can help us build a secure, private and free email client for iOS by [giving to Thunderbird today](https://www.thunderbird.net/donate/mobile/?form=tfi).
+- **Gmail.** The Google sign-in sheet can run, but IMAP logs in with the `LOGIN` command. Gmail expects `AUTHENTICATE XOAUTH2`, so a Google access token does not open the mailbox. There is no mail.ru OAuth client either. mail.ru, inbox.ru, bk.ru, and list.ru are in the ISPDB; autoconfig prefers OAuth2, and the authentication picker can be switched to **Password**. mail.ru expects an app password for external clients. Reading INBOX over password IMAP is the path that is actually wired up.
+- **Sending mail, push, real folder lists.** Compose does not send. The drawer does not load mailboxes from the server (`MailboxDropdownRowView` still has a “load the list” TODO).
+- **OAuth client ids** for AOL, Fastmail, Google, Microsoft, Thundermail, and Yahoo are the public ids from upstream. Redirect schemes stay `net.thunderbird.ios` and `msauth.net.thunderbird.ios` so those registrations still match. A personal Google iOS client can be injected at build time with the `GOOGLE_OAUTH_CLIENT_ID` and `GOOGLE_OAUTH_URL_SCHEME` secrets. That fixes the browser step only.
+- The upstream OAuth callback listened on the first URL scheme, while Microsoft’s redirect uses `msauth.` plus that scheme. The callback now uses the scheme from the redirect URI.
 
-## Community
+Minimum OS is iOS 18 (iPhone XR and newer).
 
-Read the [Mozilla Community Participation Guidelines](https://www.mozilla.org/about/governance/policies/participation/) for an explanation of how we treat each other and work together.
+## CI
 
-Stay informed about Thunderbird Mobile development:
+GitHub Actions, same shape as upstream: `macos-26`, Xcode 26.4, fastlane `beta` for TestFlight.
 
-- Subscribe to the [mobile-planning discussion group](https://thunderbird.topicbox.com/groups/mobile-planning)
-- Read our monthly updates on the [Thunderbird Blog](https://blog.thunderbird.net/category/mobile-news/)
+| Workflow | When | Needs secrets |
+| --- | --- | --- |
+| [Xcode Build](.github/workflows/test.yml) | push and pull request to `main` | no |
+| [Personal TestFlight](.github/workflows/personal-testflight.yml) | manual | yes |
 
-Share your ideas or vote on feature suggestions on [Mozilla Connect.](https://connect.mozilla.org/t5/ideas/idb-p/ideas/label-name/thunderbird%20for%20ios)
+Xcode Cloud and Codemagic were not used. Upstream already ships this GitHub Actions path, so merges stay small, and there is no second vendor account. Public repositories: standard runners, including `macos-26`, are free. Private repositories on GitHub Free include 2,000 minutes/month; macOS is billed at $0.062/minute (Linux is $0.006), and the included quota is consumed about 10× faster, roughly 200 minutes of macOS. A full simulator build can use 30–60 minutes, and Swift Format is a second macOS job on every push. A public repo avoids that. Apple Developer Program (Individual) is separate and required for TestFlight; Apple lists it at $99/year in the US.
 
-The Thunderbird community uses [Matrix](https://matrix.to) to communicate:
+Signing secrets are created with `scripts/bootstrap_signing.py` (openssl + App Store Connect API, no Mac) and stored in GitHub Actions secrets. Nothing secret is committed. `signing-out/` is gitignored.
 
-- General chat about Thunderbird for iOS: [#tb-mobile:mozilla.org](https://matrix.to/#/#tb-ios:mozilla.org)
-- Development and other ways to contribute: [#tb-mobile-dev:mozilla.org](https://matrix.to/#/#tb-mobile-dev:mozilla.org)
-- Broader Thunderbird community: [#thunderbird-community:mozilla.org](https://matrix.to/#/#thunderbird-community:mozilla.org)
-
-## License
-
-Thunderbird for iOS is licensed under the [Mozilla Public License 2.0.](LICENSE)
-
----
-
-Visit [Thunderbird.net](https://thunderbird.net) and [Thunderbird.net - Mobile](https://thunderbird.net/mobile/) for more information about Thunderbird’s ecosystem.
+Bundle id: `com.verkvest.thunderbird`. Mozilla’s team id `BUMSKVQ3D9` is cleared. Release signing stays manual; fastlane writes the team id and profile from CI secrets.

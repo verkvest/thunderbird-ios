@@ -15,3 +15,10 @@ book/
 
 # Fluidattacks scanner
 fluidscan-results.sarif
+
+# Signing material. Never commit.
+signing-out/
+*.p12
+*.mobileprovision
+*.p8
+AuthKey_*

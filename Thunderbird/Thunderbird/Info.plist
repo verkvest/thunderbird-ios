@@ -8,13 +8,18 @@
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>CFBundleURLName</key>
-			<string>net.thunderbird.ios</string>
+			<string>com.verkvest.thunderbird</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>net.thunderbird.ios</string>
 				<string>msauth.net.thunderbird.ios</string>
+				<string>$(GOOGLE_OAUTH_URL_SCHEME)</string>
 			</array>
 		</dict>
 	</array>
+	<key>GoogleOAuthClientID</key>
+	<string>$(GOOGLE_OAUTH_CLIENT_ID)</string>
+	<key>GoogleOAuthURLScheme</key>
+	<string>$(GOOGLE_OAUTH_URL_SCHEME)</string>
 </dict>
 </plist>

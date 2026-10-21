@@ -1,0 +1,207 @@
+# Personal TestFlight upload for bundle id com.verkvest.thunderbird.
+# Manual only. Signing material comes from repository secrets, never from git.
+# See README_RU.md for how to create those secrets without a Mac.
+
+name: Personal TestFlight
+
+env:
+  XCODE_VERSION: "26.4"
+  DEFAULT_VERSION: "1.0"
+  DEFAULT_TEST_DEVICE: "iPhone 17"
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Marketing version (CFBundleShortVersionString)"
+        required: false
+        default: "1.0"
+        type: string
+      skip_tests:
+        description: "Skip simulator tests (saves macOS minutes; Xcode Build already tests main)"
+        required: false
+        default: true
+        type: boolean
+      notify_testers:
+        description: "Notify external testers (needs an external group already set up)"
+        required: false
+        default: false
+        type: boolean
+      test_device:
+        description: "Simulator name, used only when tests are not skipped"
+        required: false
+        default: "iPhone 17"
+        type: string
+
+concurrency:
+  group: personal-testflight
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build_and_upload:
+    runs-on: macos-26
+    timeout-minutes: 120
+
+    steps:
+      - name: Check required secrets
+        env:
+          APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_CERTIFICATE_P12: ${{ secrets.APPLE_CERTIFICATE_P12 }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APP_STORE_PROVISIONING_PROFILE: ${{ secrets.APP_STORE_PROVISIONING_PROFILE }}
+        run: |
+          missing=0
+          for name in \
+            APP_STORE_CONNECT_API_KEY \
+            APP_STORE_CONNECT_API_KEY_ID \
+            APP_STORE_CONNECT_ISSUER_ID \
+            APPLE_TEAM_ID \
+            APPLE_CERTIFICATE_P12 \
+            APPLE_CERTIFICATE_PASSWORD \
+            APP_STORE_PROVISIONING_PROFILE
+          do
+            if [ -z "${!name}" ]; then
+              echo "::error::Missing GitHub secret ${name}. Create it with scripts/bootstrap_signing.py and add the value under Settings → Secrets and variables → Actions. Do not commit it."
+              missing=1
+            fi
+          done
+          if [ "$missing" -ne 0 ]; then
+            exit 1
+          fi
+          echo "Required signing secrets are present. Values are not printed."
+
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Xcode Select Version
+        uses: mobiledevops/xcode-select-version-action@7b50160de7c8bd6a8c4ee2c2e6b5ee0983886c0b # v1.1.0
+        with:
+          xcode-select-version: ${{ env.XCODE_VERSION }}
+
+      - name: Ensure iOS Simulator Runtime installed
+        if: ${{ !inputs.skip_tests }}
+        run: xcodebuild -downloadPlatform iOS
+
+      - name: Setup Ruby and Fastlane
+        uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3dbe89f6dcde9f178f # v1.327.0
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+          working-directory: fastlane
+
+      - name: Setup Apple certificate
+        env:
+          APPLE_CERTIFICATE_P12: ${{ secrets.APPLE_CERTIFICATE_P12 }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+        run: |
+          CLEAN_CERT=$(echo "$APPLE_CERTIFICATE_P12" | tr -d '\n\r\t ' | tr -d '[:space:]')
+          echo "$CLEAN_CERT" | base64 --decode > certificate.p12
+          if [ ! -s certificate.p12 ]; then
+            echo "::error::APPLE_CERTIFICATE_P12 is not valid base64"
+            exit 1
+          fi
+
+          KEYCHAIN_PASS=$(openssl rand -base64 16)
+          security create-keychain -p "$KEYCHAIN_PASS" build.keychain
+          security set-keychain-settings -lut 3600 build.keychain
+          security unlock-keychain -p "$KEYCHAIN_PASS" build.keychain
+          security list-keychains -d user -s build.keychain login.keychain
+
+          openssl pkcs12 -in certificate.p12 -out temp_cert.pem -clcerts -nokeys -passin pass:"$APPLE_CERTIFICATE_PASSWORD"
+          openssl pkcs12 -in certificate.p12 -out temp_key.pem -nocerts -nodes -passin pass:"$APPLE_CERTIFICATE_PASSWORD"
+          openssl pkcs12 -export -out macos_certificate.p12 -inkey temp_key.pem -in temp_cert.pem -passout pass:"$APPLE_CERTIFICATE_PASSWORD" -keypbe PBE-SHA1-3DES -certpbe PBE-SHA1-3DES -macalg sha1
+
+          security import macos_certificate.p12 -k build.keychain -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASS" build.keychain
+          rm -f macos_certificate.p12 certificate.p12 temp_cert.pem temp_key.pem
+          echo "Certificate installed"
+
+      - name: Setup provisioning profile
+        env:
+          PROVISIONING_PROFILE: ${{ secrets.APP_STORE_PROVISIONING_PROFILE }}
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "$PROVISIONING_PROFILE" | tr -d '\n\r\t ' | base64 --decode > profile.mobileprovision
+          if [ ! -s profile.mobileprovision ]; then
+            echo "::error::APP_STORE_PROVISIONING_PROFILE is not valid base64"
+            exit 1
+          fi
+          PROFILE_UUID=$(security cms -D -i profile.mobileprovision | plutil -extract UUID raw -)
+          PROFILE_NAME=$(security cms -D -i profile.mobileprovision | plutil -extract Name raw -)
+          cp profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/"$PROFILE_UUID".mobileprovision
+          echo "PROVISIONING_PROFILE_NAME=$PROFILE_NAME" >> "$GITHUB_ENV"
+          echo "PROVISIONING_PROFILE_UUID=$PROFILE_UUID" >> "$GITHUB_ENV"
+          rm -f profile.mobileprovision
+          echo "Provisioning profile installed: $PROFILE_NAME"
+
+      - name: Setup App Store Connect API Key
+        working-directory: fastlane
+        env:
+          APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+        run: |
+          KEY_PATH="$RUNNER_TEMP/AuthKey_${APP_STORE_CONNECT_API_KEY_ID}.p8"
+          if echo "$APP_STORE_CONNECT_API_KEY" | tr -d '\n\r\t ' | base64 --decode > "$KEY_PATH" 2>/dev/null && grep -q "PRIVATE KEY" "$KEY_PATH"; then
+            echo "Decoded base64 API key"
+          else
+            printf '%s\n' "$APP_STORE_CONNECT_API_KEY" > "$KEY_PATH"
+          fi
+          if ! grep -q "PRIVATE KEY" "$KEY_PATH"; then
+            echo "::error::APP_STORE_CONNECT_API_KEY does not look like a .p8 key"
+            exit 1
+          fi
+          echo "APP_STORE_CONNECT_API_KEY_PATH=$KEY_PATH" >> "$GITHUB_ENV"
+
+      - name: Resolve Package Dependencies
+        run: |
+          xcodebuild -resolvePackageDependencies \
+            -workspace Thunderbird.xcworkspace \
+            -scheme Thunderbird
+
+      - name: Build and upload to TestFlight
+        working-directory: fastlane
+        env:
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          VERSION_INPUT: ${{ inputs.version || '1.0' }}
+          NOTIFY_TESTERS: ${{ inputs.notify_testers }}
+          TEST_DEVICE: ${{ inputs.test_device || 'iPhone 17' }}
+          SKIP_TESTS: ${{ inputs.skip_tests }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_URL_SCHEME: ${{ secrets.GOOGLE_OAUTH_URL_SCHEME }}
+          APP_STORE_CONNECT_API_KEY_PATH: ${{ env.APP_STORE_CONNECT_API_KEY_PATH }}
+        run: bundle exec fastlane beta
+
+      - name: Upload build logs on failure
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ios-build-logs-${{ github.run_id }}
+          path: |
+            fastlane/logs/
+            ~/Library/Logs/gym/
+          retention-days: 7
+
+      - name: Clean up sensitive files
+        if: always()
+        run: |
+          rm -f fastlane/AuthKey_*.p8 \
+                "$RUNNER_TEMP"/AuthKey_*.p8 \
+                profile.mobileprovision \
+                ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision \
+                macos_certificate.p12 \
+                certificate.p12 \
+                temp_cert.pem \
+                temp_key.pem
+          if security list-keychains | grep -q "build.keychain"; then
+            security delete-keychain build.keychain || true
+          fi

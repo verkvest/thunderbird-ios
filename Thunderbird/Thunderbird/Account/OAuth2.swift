@@ -47,16 +47,31 @@ extension OAuth2.Configuration: @retroactive CaseIterable {
     }
 
     // MARK: Google
+    /// Personal builds read `GoogleOAuthClientID` / `GoogleOAuthURLScheme` from Info.plist
+    /// (set in CI from secrets). When those are empty, the public client id published by
+    /// upstream is used with the redirect scheme it was registered for (`net.thunderbird.ios`).
     static var google: Self {
-        try! Self(
+        let configuredClientID: String = Bundle.main.infoString("GoogleOAuthClientID")
+        let configuredScheme: String = Bundle.main.infoString("GoogleOAuthURLScheme")
+        let upstreamClientID: String = "769997220831-n207vus74snfmeoeagphatkrco9ckb7s.apps.googleusercontent.com"
+        let clientID: String = configuredClientID.isEmpty ? upstreamClientID : configuredClientID
+        let redirectScheme: String
+        if !configuredClientID.isEmpty, !configuredScheme.isEmpty {
+            redirectScheme = configuredScheme
+        } else if !configuredClientID.isEmpty, let reversed: String = reversedGoogleScheme(clientID) {
+            redirectScheme = reversed
+        } else {
+            redirectScheme = "net.thunderbird.ios"
+        }
+        return try! Self(
             authURI: "https://accounts.google.com/o/oauth2/v2/auth",
             tokenURI: "https://oauth2.googleapis.com/token",
-            redirectURI: "\(Bundle.main.schemes.first!):/oauth2redirect",
+            redirectURI: "\(redirectScheme):/oauth2redirect",
             responseType: "code",
             scope: [
                 "https://mail.google.com/"
             ],
-            clientID: "769997220831-n207vus74snfmeoeagphatkrco9ckb7s.apps.googleusercontent.com",
+            clientID: clientID,
             hosts: [
                 "googlemail.com",
                 "google.com",
@@ -139,4 +154,21 @@ extension OAuth2.Configuration: @retroactive CaseIterable {
             .yahoo
         ]
     }
+}
+
+extension Bundle {
+    fileprivate func infoString(_ key: String) -> String {
+        let value: String = object(forInfoDictionaryKey: key) as? String ?? ""
+        let trimmed: String = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.hasPrefix("$(") { return "" }
+        return trimmed
+    }
+}
+
+private func reversedGoogleScheme(_ clientID: String) -> String? {
+    let suffix: String = ".apps.googleusercontent.com"
+    guard clientID.hasSuffix(suffix) else { return nil }
+    let prefix: String = String(clientID.dropLast(suffix.count))
+    guard !prefix.isEmpty else { return nil }
+    return "com.googleusercontent.apps.\(prefix)"
 }

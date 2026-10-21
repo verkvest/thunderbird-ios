@@ -12,19 +12,31 @@
 
 default_platform(:ios)
 
+APP_BUNDLE_ID = "com.verkvest.thunderbird"
+
+def google_oauth_xcargs
+  args = []
+  client_id = ENV["GOOGLE_OAUTH_CLIENT_ID"]
+  scheme = ENV["GOOGLE_OAUTH_URL_SCHEME"]
+  args << "GOOGLE_OAUTH_CLIENT_ID=#{client_id}" if client_id && !client_id.empty?
+  args << "GOOGLE_OAUTH_URL_SCHEME=#{scheme}" if scheme && !scheme.empty?
+  args.join(" ")
+end
+
 platform :ios do
   desc "Build and upload to TestFlight"
   lane :beta do
     # Ensure no uncommited changes
     ensure_git_status_clean
 
-    # Run tests
-    run_tests(
-      scheme: "Thunderbird",
-      workspace: "Thunderbird.xcworkspace",
-      destination: "platform=iOS Simulator,name=#{ENV['TEST_DEVICE']}",
-      code_coverage: true
-    )
+    unless ENV["SKIP_TESTS"] == "true"
+      run_tests(
+        scheme: "Thunderbird",
+        workspace: "Thunderbird.xcworkspace",
+        destination: "platform=iOS Simulator,name=#{ENV['TEST_DEVICE']}",
+        code_coverage: true
+      )
+    end
 
     # Set version if provided via workflow input
     if ENV["VERSION_INPUT"] && !ENV["VERSION_INPUT"].empty?
@@ -61,17 +73,19 @@ platform :ios do
     )
 
     # Build the app
+    xcargs = google_oauth_xcargs
     build_app(
       scheme: "Thunderbird",
       workspace: "Thunderbird.xcworkspace",
       sdk: "iphoneos",
       destination: "generic/platform=iOS",
       export_method: "app-store",
+      xcargs: xcargs,
       export_options: {
         method: "app-store",
         teamID: ENV["APPLE_TEAM_ID"],
         provisioningProfiles: {
-          "net.thunderbird.ios" => ENV["PROVISIONING_PROFILE_NAME"]
+          APP_BUNDLE_ID => ENV["PROVISIONING_PROFILE_NAME"]
         },
         signingStyle: "manual",
         uploadBitcode: false,
@@ -104,13 +118,14 @@ platform :ios do
     # Ensure no uncommited changes
     ensure_git_status_clean
 
-    # Run tests
-    run_tests(
-      scheme: "Thunderbird",
-      workspace: "Thunderbird.xcworkspace",
-      destination: "platform=iOS Simulator,name=#{ENV['TEST_DEVICE']}",
-      code_coverage: true
-    )
+    unless ENV["SKIP_TESTS"] == "true"
+      run_tests(
+        scheme: "Thunderbird",
+        workspace: "Thunderbird.xcworkspace",
+        destination: "platform=iOS Simulator,name=#{ENV['TEST_DEVICE']}",
+        code_coverage: true
+      )
+    end
 
     # Set version if provided via workflow input
     if ENV["VERSION_INPUT"] && !ENV["VERSION_INPUT"].empty?
@@ -147,15 +162,17 @@ platform :ios do
     )
 
     # Build the app
+    xcargs = google_oauth_xcargs
     build_app(
       scheme: "Thunderbird",
       workspace: "Thunderbird.xcworkspace",
       export_method: "app-store",
+      xcargs: xcargs,
       export_options: {
         method: "app-store",
         teamID: ENV["APPLE_TEAM_ID"],
         provisioningProfiles: {
-          "net.thunderbird.ios" => ENV["PROVISIONING_PROFILE_NAME"]
+          APP_BUNDLE_ID => ENV["PROVISIONING_PROFILE_NAME"]
         },
         signingStyle: "manual",
         uploadBitcode: false,

@@ -74,6 +74,7 @@
 "close_button" = "Close";
 "all_remote_feature_flags" = "Allow remote feature flags";
 "inbox_header" = "Inbox";
+"inbox_sample_banner" = "Sample messages, not your mail. Pull to refresh after IMAP sign-in. If sign-in fails or the inbox is empty, these samples stay.";
 "sort_button" = "Sort";
 "has_attachments_sort_button" = "Attachments";
 "date_sort_button" = "Date";

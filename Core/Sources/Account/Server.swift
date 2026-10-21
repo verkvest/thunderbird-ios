@@ -125,13 +125,19 @@ extension SMTP.Server {
         guard server.serverProtocol == .smtp else {
             throw SMTPError.serverProtocolMismatch
         }
-        guard server.connectionSecurity != .tls else {
+        guard server.authenticationType != .oAuth2 else {
+            throw SMTPError.oAuth2NotSupported
+        }
+        guard let security = SMTP.ConnectionSecurity(rawValue: server.connectionSecurity.rawValue) else {
             throw SMTPError.requiredTLSNotConfigured
         }
-        guard server.authenticationType != .oAuth2 else {
-            throw SMTPError.serverProtocolMismatch
-        }
-        self.init(hostname: server.hostname, username: server.username, password: authorization.rawValue)
+        self.init(
+            security,
+            hostname: server.hostname,
+            username: server.username,
+            password: authorization.rawValue,
+            port: server.port
+        )
     }
 }
 
