@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   test:
-    runs-on: macos-26
+    runs-on: macos-26-intel
     timeout-minutes: 90
     env:
       DEVICE: "iPhone 17"
