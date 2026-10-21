@@ -18,6 +18,8 @@ fluidscan-results.sarif
 
 # Signing material. Never commit.
 signing-out/
+__pycache__/
+*.pyc
 *.p12
 *.mobileprovision
 *.p8
