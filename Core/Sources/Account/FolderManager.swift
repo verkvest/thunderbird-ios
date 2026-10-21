@@ -38,7 +38,7 @@ public final class FolderManager {
     // Any folders with a depth exceeding 3 should appear at level 3.
     // i.e. Folder > Subfolder > Child Subfolder AND Folder > Subfolder > Child Subfolder > Grandchild Subfolder appear at the same level
     // In this instance "Grandchild Subfolder" should appear as "Child Subfolder/Grandchild Subfolder" in the UI.
-    public func refreshFolders(mailboxes: [Mailbox]) async {
+    nonisolated(nonsending) public func refreshFolders(mailboxes: [Mailbox]) async {
         folders = []
         // Populate the full list of folders
         for mailbox in mailboxes {

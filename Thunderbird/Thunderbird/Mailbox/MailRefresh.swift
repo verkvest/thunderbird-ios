@@ -9,6 +9,12 @@ import Foundation
 import BackgroundTasks
 import UserNotifications
 
+/// BGTask is not Sendable. The system hands it to one handler; completion is reported once.
+private final class RefreshTaskBox: @unchecked Sendable {
+    let task: BGAppRefreshTask
+    init(_ task: BGAppRefreshTask) { self.task = task }
+}
+
 /// Short foreground-style IMAP check scheduled by the system. Does not use IDLE.
 enum MailRefresh {
     static let id: String = "com.verkvest.thunderbird.refresh"
@@ -16,13 +22,14 @@ enum MailRefresh {
 
     static func register() {
         BGTaskScheduler.shared.register(forTaskWithIdentifier: id, using: nil) { task in
-            guard let task: BGAppRefreshTask = task as? BGAppRefreshTask else { return }
-            let work: Task<Void, Never> = Task {
+            guard let refresh: BGAppRefreshTask = task as? BGAppRefreshTask else { return }
+            let box: RefreshTaskBox = RefreshTaskBox(refresh)
+            let work: Task<Void, Never> = Task { @MainActor in
                 await probe()
-                task.setTaskCompleted(success: true)
+                box.task.setTaskCompleted(success: true)
                 schedule()
             }
-            task.expirationHandler = { work.cancel() }
+            refresh.expirationHandler = { work.cancel() }
         }
     }
 

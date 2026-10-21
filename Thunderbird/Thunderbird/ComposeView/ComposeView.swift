@@ -24,7 +24,7 @@ struct ComposeView: View {
     }
 
     var body: some View {
-        EmailBodyView(email: draft.seed, editable: true, draft: draft)
+        EmailBodyView(email: draft.seed, draft: draft, editable: true)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("close_button") { dismiss() }
