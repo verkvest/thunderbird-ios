@@ -91,7 +91,7 @@ jobs:
         run: xcodebuild -downloadPlatform iOS
 
       - name: Setup Ruby and Fastlane
-        uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3dbe89f6dcde9f178f # v1.327.0
+        uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1.327.0
         with:
           ruby-version: "3.2"
           bundler-cache: true
