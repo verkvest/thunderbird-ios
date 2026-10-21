@@ -1,0 +1,17 @@
+"onboarding_welcome_text" = "En privatlivsfokusert og reklamefri e-postapp for iOS med åpen kildekode.";
+"onboarding_welcome_developed_by" = "Utviklet av et dedikert team hos MZLA Technologies og et globalt samfunn frivillige. En del av Mozilla-familien.";
+"onboarding_welcome_start_button" = "Kom i gang";
+"account_oauth_sign_in_button" = "Logg inn";
+"account_server_settings_username_label" = "Brukernavn";
+"account_server_settings_protocol_type_label" = "Protokoll";
+"account_server_settings_security_label" = "Sikkerhet";
+"account_server_settings_port_label" = "Port";
+"account_server_settings_server_label" = "Server";
+"configuration_IMAP_not_supported" = "IMAP støttes ikke for øyeblikket";
+"account_server_settings_authentication_client_certificate" = "Klientsertifikat";
+"account_server_settings_authentication_label" = "Autentisering";
+"account_server_settings_authentication_password_cleartext" = "Passord";
+"account_server_settings_authentication_password_encrypted" = "Kryptert passord";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "Ingen";
+"donation_support" = "Doner";

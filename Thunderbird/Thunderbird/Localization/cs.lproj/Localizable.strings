@@ -1,0 +1,17 @@
+"onboarding_welcome_text" = "E-mailová aplikace pro iOS bez reklam s otevřeným zdrojovým kódem, zaměřená na ochranu soukromí.";
+"onboarding_welcome_developed_by" = "Thunderbird je vyvíjen týmem v MZLA Technologies a globální komunitou dobrovolníků. Je součástí rodiny Mozilla.";
+"onboarding_welcome_start_button" = "Začínáme";
+"account_oauth_sign_in_button" = "Přihlásit se";
+"account_server_settings_username_label" = "Uživatelské jméno";
+"account_server_settings_protocol_type_label" = "Protokol";
+"account_server_settings_security_label" = "Zabezpečení";
+"account_server_settings_port_label" = "Port";
+"account_server_settings_server_label" = "Server";
+"configuration_IMAP_not_supported" = "IMAP momentálně není podporován";
+"account_server_settings_authentication_client_certificate" = "Certifikát klienta";
+"account_server_settings_authentication_label" = "Autentifikace";
+"account_server_settings_authentication_password_cleartext" = "Heslo";
+"account_server_settings_authentication_password_encrypted" = "Zašifrované heslo";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "Žádný";
+"donation_support" = "Zaslat dar";

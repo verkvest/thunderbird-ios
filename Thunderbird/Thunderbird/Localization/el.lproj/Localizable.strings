@@ -1,0 +1,17 @@
+"onboarding_welcome_developed_by" = "Φτιαγμένο από μια ειδική ομάδα της MZLA Technologies και μια παγκόσμια κοινότητα εθελοντών. Μέλος της οικογένειας της Mozilla.";
+"onboarding_welcome_start_button" = "Ξεκινήστε";
+"account_oauth_sign_in_button" = "Σύνδεση";
+"account_server_settings_username_label" = "Όνομα χρήστη";
+"account_server_settings_protocol_type_label" = "Πρωτόκολλο";
+"account_server_settings_security_label" = "Ασφάλεια";
+"account_server_settings_port_label" = "Θύρα";
+"account_server_settings_server_label" = "Διακομιστής";
+"configuration_IMAP_not_supported" = "Το IMAP δεν υποστηρίζεται";
+"account_server_settings_authentication_client_certificate" = "Πιστοποιητικό πελάτη";
+"account_server_settings_authentication_label" = "Πιστοποίηση";
+"account_server_settings_authentication_password_cleartext" = "Κωδικός πρόσβασης";
+"account_server_settings_authentication_password_encrypted" = "Κρυπτογραφημένος κωδικός πρόσβασης";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "Κανένα";
+"donation_support" = "Δωρεά";
+"onboarding_welcome_text" = "Μια εφαρμογή email ανοιχτού κώδικα, εστιασμένη στο απόρρητο και χωρίς διαφημίσεις για iOS.";

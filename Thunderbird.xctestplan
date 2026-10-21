@@ -1,0 +1,145 @@
+{
+  "configurations" : [
+    {
+      "id" : "201950B5-91ED-4DA7-893D-C432089C06A7",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Thunderbird.xcodeproj",
+        "identifier" : "1521D8232D9C4D6300C4DFDF",
+        "name" : "ThunderbirdTests"
+      }
+    },
+    {
+      "skippedTests" : {
+        "suites" : [
+          {
+            "name" : "ColorTests"
+          }
+        ]
+      },
+      "target" : {
+        "containerPath" : "container:..\/Bolt",
+        "identifier" : "BoltUITests",
+        "name" : "BoltUITests"
+      }
+    },
+    {
+      "skippedTests" : {
+        "suites" : [
+          {
+            "name" : "AccountTests",
+            "testFunctions" : [
+              "autoconfig()",
+              "imapClient()",
+              "jmapClient()"
+            ]
+          }
+        ]
+      },
+      "target" : {
+        "containerPath" : "container:..\/Core",
+        "identifier" : "AccountTests",
+        "name" : "AccountTests"
+      }
+    },
+    {
+      "skippedTests" : {
+        "suites" : [
+          {
+            "name" : "DNSResolverTests"
+          },
+          {
+            "name" : "DomainParserTests"
+          },
+          {
+            "name" : "URLSessionTests"
+          }
+        ]
+      },
+      "target" : {
+        "containerPath" : "container:..\/Core",
+        "identifier" : "AutoconfigurationTests",
+        "name" : "AutoconfigurationTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Core",
+        "identifier" : "EmailAddressTests",
+        "name" : "EmailAddressTests"
+      }
+    },
+    {
+      "skippedTests" : {
+        "suites" : [
+          {
+            "name" : "IMAPClientTests",
+            "testFunctions" : [
+              "allCommands(_:)"
+            ]
+          }
+        ]
+      },
+      "target" : {
+        "containerPath" : "container:..\/Core",
+        "identifier" : "IMAPTests",
+        "name" : "IMAPTests"
+      }
+    },
+    {
+      "skippedTests" : {
+        "suites" : [
+          {
+            "name" : "JMAPClientTests",
+            "testFunctions" : [
+              "allMethods(_:)"
+            ]
+          },
+          {
+            "name" : "URLSessionTests"
+          }
+        ]
+      },
+      "target" : {
+        "containerPath" : "container:..\/Core",
+        "identifier" : "JMAPTests",
+        "name" : "JMAPTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Core",
+        "identifier" : "MIMETests",
+        "name" : "MIMETests"
+      }
+    },
+    {
+      "skippedTests" : {
+        "suites" : [
+          {
+            "name" : "SMTPClientTests",
+            "testFunctions" : [
+              "send(server:)"
+            ]
+          }
+        ]
+      },
+      "target" : {
+        "containerPath" : "container:..\/Core",
+        "identifier" : "SMTPTests",
+        "name" : "SMTPTests"
+      }
+    }
+  ],
+  "version" : 1
+}

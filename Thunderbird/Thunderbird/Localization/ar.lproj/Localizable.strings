@@ -1,0 +1,17 @@
+"onboarding_welcome_text" = "تطبيق بريد إلكتروني مفتوح المصدر يركز على الخصوصية وخالٍ من الإعلانات لنظام iOS.";
+"onboarding_welcome_developed_by" = "تم تطويره من قبل فريق متخصص في MZLA Technologies ومجتمع عالمي من المتطوعين. جزء من عائلة موزيلا.";
+"onboarding_welcome_start_button" = "ابدأ";
+"account_oauth_sign_in_button" = "تسجيل الدخول";
+"account_server_settings_username_label" = "اسم المستخدم";
+"account_server_settings_protocol_type_label" = "البروتوكول";
+"account_server_settings_security_label" = "الحماية";
+"account_server_settings_port_label" = "المنفذ";
+"account_server_settings_authentication_none" = "بدون";
+"account_server_settings_authentication_password_encrypted" = "كلمة المرور مشفرة";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_server_label" = "الخادم";
+"configuration_IMAP_not_supported" = "IMAP غير مدعوم حالياً";
+"account_server_settings_authentication_client_certificate" = "شهادة العميل";
+"account_server_settings_authentication_label" = "المصادقة";
+"account_server_settings_authentication_password_cleartext" = "كلمة المرور";
+"donation_support" = "تبرع";

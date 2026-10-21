@@ -1,0 +1,17 @@
+"onboarding_welcome_text" = "Un'app di posta elettronica open source, incentrata sulla privacy e senza pubblicità per iOS.";
+"onboarding_welcome_developed_by" = "Sviluppato da un team dedicato di MZLA Technologies e da una comunità globale di volontari. Parte della famiglia Mozilla.";
+"onboarding_welcome_start_button" = "Inizia";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_username_label" = "Nome utente";
+"account_server_settings_protocol_type_label" = "Protocollo";
+"account_server_settings_port_label" = "Porta";
+"account_server_settings_server_label" = "Server";
+"configuration_IMAP_not_supported" = "Imap attualmente non è supportato";
+"account_server_settings_authentication_label" = "Autenticazione";
+"account_server_settings_authentication_password_cleartext" = "Password";
+"account_server_settings_authentication_password_encrypted" = "Password criptata";
+"donation_support" = "Dona";
+"account_oauth_sign_in_button" = "Log In";
+"account_server_settings_security_label" = "Sicurezza";
+"account_server_settings_authentication_client_certificate" = "Certificato E-mail Client";
+"account_server_settings_authentication_none" = "Nessuno";

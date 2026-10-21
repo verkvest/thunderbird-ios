@@ -1,0 +1,17 @@
+"onboarding_welcome_start_button" = "Fillojani";
+"onboarding_welcome_developed_by" = "I zhvilluar nga një ekip i përkushtuar te MZLA Technologies dhe një bashkësi mbarëbotërore vullnetarësh. Pjesë e familjes Mozilla.";
+"onboarding_welcome_text" = "Një aplikacion për email, me burim të hapët, i përqendruar te privatësia dhe pa reklama, për iOS.";
+"account_oauth_sign_in_button" = "Hyni";
+"account_server_settings_username_label" = "Emër përdoruesi";
+"account_server_settings_protocol_type_label" = "Protokoll";
+"account_server_settings_security_label" = "Siguri";
+"account_server_settings_port_label" = "Portë";
+"account_server_settings_server_label" = "Shërbyes";
+"configuration_IMAP_not_supported" = "IMAP-i aktulisht s’mbulohet";
+"account_server_settings_authentication_client_certificate" = "Dëshmi Klienti";
+"account_server_settings_authentication_label" = "Mirëfilltësim";
+"account_server_settings_authentication_password_cleartext" = "Fjalëkalim";
+"account_server_settings_authentication_password_encrypted" = "Fjalëkalim i Fshehtëzuar";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "Asnjë";
+"donation_support" = "Dhuroni";

@@ -1,0 +1,30 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
+    labels:
+      - "type: dependency"
+      - "type: github actions"
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      actions-deps:
+        patterns:
+          - "*"
+  - package-ecosystem: "swift"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
+    labels:
+      - "type: dependency"
+      - "type: swift package"
+    commit-message:
+      prefix: chore
+      include: scope

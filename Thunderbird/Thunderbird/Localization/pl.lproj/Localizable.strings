@@ -1,0 +1,17 @@
+"onboarding_welcome_text" = "Otwarta, dbająca o prywatność i wolna od reklam aplikacja pocztowa na iOS.";
+"onboarding_welcome_start_button" = "Rozpocznij";
+"onboarding_welcome_developed_by" = "Aplikacja opracowana przez oddany zespół w MZLA Technologies i globalną społeczność wolontariuszy. Część rodziny Mozilla.";
+"account_oauth_sign_in_button" = "Zaloguj się";
+"account_server_settings_username_label" = "Nazwa użytkownika";
+"account_server_settings_protocol_type_label" = "Protokół";
+"account_server_settings_security_label" = "Zabezpieczenia";
+"account_server_settings_port_label" = "Port";
+"account_server_settings_server_label" = "Serwer";
+"configuration_IMAP_not_supported" = "IMAP obecnie nie jest obsługiwany";
+"account_server_settings_authentication_client_certificate" = "Certyfikat klienta";
+"account_server_settings_authentication_label" = "Uwierzytelnianie";
+"account_server_settings_authentication_password_cleartext" = "Hasło";
+"account_server_settings_authentication_password_encrypted" = "Zaszyfrowane hasło";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "Brak";
+"donation_support" = "Wspomóż";

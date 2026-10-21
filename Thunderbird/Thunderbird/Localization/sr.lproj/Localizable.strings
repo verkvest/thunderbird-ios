@@ -1,0 +1,17 @@
+"onboarding_welcome_text" = "Имејл апликација отвореног кода, фокусирана на приватност и без огласа, за iOS.";
+"onboarding_welcome_start_button" = "Започни";
+"onboarding_welcome_developed_by" = "Развијено од стране посвећеног тима у MZLA Technologies и глобалне заједнице волонтера. Део је Mozilla породице.";
+"account_oauth_sign_in_button" = "Пријава";
+"account_server_settings_username_label" = "Корисничко име";
+"account_server_settings_protocol_type_label" = "Протокол";
+"account_server_settings_security_label" = "Безбедност";
+"account_server_settings_port_label" = "Порт";
+"account_server_settings_server_label" = "Сервер";
+"configuration_IMAP_not_supported" = "IMAP тренутно није подржан";
+"account_server_settings_authentication_client_certificate" = "Сертификат клијента";
+"account_server_settings_authentication_label" = "Аутентификација";
+"account_server_settings_authentication_password_cleartext" = "Лозинка";
+"account_server_settings_authentication_password_encrypted" = "Шифрована лозинка";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "Ниједно";
+"donation_support" = "Донација";

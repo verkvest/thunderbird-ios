@@ -1,0 +1,17 @@
+"onboarding_welcome_text" = "E-poštni program za iOS, ki se osredotoča na zasebnost, in je odprtokoden in brez oglasov.";
+"onboarding_welcome_developed_by" = "Program je razvila posebna ekipa pri MZLA Technologies in globalna skupnost prostovoljcev, ki sta del družine Mozilla.";
+"onboarding_welcome_start_button" = "Začni";
+"account_oauth_sign_in_button" = "Prijavi se";
+"account_server_settings_username_label" = "Uporabniško ime";
+"account_server_settings_protocol_type_label" = "Protokol";
+"account_server_settings_security_label" = "Varnost";
+"account_server_settings_port_label" = "Vrata";
+"account_server_settings_server_label" = "Strežnik";
+"configuration_IMAP_not_supported" = "IMAP trenutno ni podprt.";
+"account_server_settings_authentication_client_certificate" = "Potrdilo odjemalca";
+"account_server_settings_authentication_label" = "Overitev";
+"account_server_settings_authentication_password_cleartext" = "Geslo";
+"account_server_settings_authentication_password_encrypted" = "Šifrirano geslo";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "Brez";
+"donation_support" = "Daruj";

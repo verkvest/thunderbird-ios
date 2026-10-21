@@ -1,0 +1,17 @@
+"onboarding_welcome_start_button" = "شروع";
+"onboarding_welcome_developed_by" = "توسط یک تیم اختصاصی در MZLA Technologies و یک جامعه سراسری از داوطلبان توسعه یافته است. بخشی از خانواده Mozilla است.";
+"onboarding_welcome_text" = "کارهٔ رایانامه‌ای نرم‌افزار آزاد، محرمانگی‌محور و بدون تبلیغ برای iOS.";
+"account_oauth_sign_in_button" = "ورود";
+"account_server_settings_username_label" = "نام کاربری";
+"account_server_settings_protocol_type_label" = "پروتکل";
+"account_server_settings_security_label" = "امنیت";
+"account_server_settings_port_label" = "پورت";
+"account_server_settings_server_label" = "سرور";
+"configuration_IMAP_not_supported" = "در حال حاضر از IMAP پشتیبانی نمی‌شود";
+"account_server_settings_authentication_client_certificate" = "گواهی کارخواه";
+"account_server_settings_authentication_label" = "احراز هویت";
+"account_server_settings_authentication_password_cleartext" = "رمز عبور";
+"account_server_settings_authentication_password_encrypted" = "رمز عبور رمزنگاری شده";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "هیچ کدام";
+"donation_support" = "کمک مالی";

@@ -1,0 +1,17 @@
+"onboarding_welcome_developed_by" = "Ontwikkeld door een toegewijd team van MZLA Technologies en een wereldwijde gemeenschap van vrijwilligers. Onderdeel van de Mozilla-familie.";
+"onboarding_welcome_start_button" = "Starten";
+"onboarding_welcome_text" = "Een open source, op privacy gerichte en advertentievrije e-mail-app voor iOS.";
+"account_oauth_sign_in_button" = "Aanmelden";
+"account_server_settings_username_label" = "Gebruikersnaam";
+"account_server_settings_protocol_type_label" = "Protocol";
+"account_server_settings_security_label" = "Beveiliging";
+"account_server_settings_port_label" = "Poort";
+"account_server_settings_server_label" = "Server";
+"configuration_IMAP_not_supported" = "IMAP wordt nog niet ondersteund";
+"account_server_settings_authentication_client_certificate" = "Clientcertificaat";
+"account_server_settings_authentication_label" = "Authenticatie";
+"account_server_settings_authentication_password_cleartext" = "Wachtwoord";
+"account_server_settings_authentication_password_encrypted" = "Versleuteld wachtwoord";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "Geen";
+"donation_support" = "Doneren";

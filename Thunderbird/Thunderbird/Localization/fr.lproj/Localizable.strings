@@ -1,0 +1,17 @@
+"onboarding_welcome_start_button" = "Commencer";
+"onboarding_welcome_text" = "Une appli libre de courriel pour iOS axée sur la protection des données personnelles et sans publicité.";
+"onboarding_welcome_developed_by" = "Développée par une équipe dévouée de MZLA Technologies et une communauté mondiale de bénévoles. Membre de la famille Mozilla.";
+"account_server_settings_authentication_none" = "Aucun";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_oauth_sign_in_button" = "Me connecter";
+"account_server_settings_username_label" = "Nom d’utilisateur";
+"account_server_settings_protocol_type_label" = "Protocole";
+"account_server_settings_security_label" = "Sécurité";
+"account_server_settings_port_label" = "Port";
+"account_server_settings_server_label" = "Serveur";
+"configuration_IMAP_not_supported" = "IMAP n’est pas pris en charge actuellement";
+"account_server_settings_authentication_client_certificate" = "Certificat client";
+"account_server_settings_authentication_label" = "Authentification";
+"account_server_settings_authentication_password_cleartext" = "Mot de passe";
+"account_server_settings_authentication_password_encrypted" = "Mot de passe chiffré";
+"donation_support" = "Faire un don";

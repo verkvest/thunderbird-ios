@@ -1,0 +1,17 @@
+"onboarding_welcome_developed_by" = "Utvecklad av ett dedikerat team på MZLA Technologies och en global gemenskap av volontärer. En del av Mozilla-familjen.";
+"onboarding_welcome_text" = "En e-postapp med öppen källkod, integritetsfokuserad och annonsfri för iOS.";
+"onboarding_welcome_start_button" = "Kom igång";
+"account_oauth_sign_in_button" = "Logga in";
+"account_server_settings_username_label" = "Användarnamn";
+"account_server_settings_protocol_type_label" = "Protokoll";
+"account_server_settings_security_label" = "Säkerhet";
+"account_server_settings_port_label" = "Port";
+"account_server_settings_server_label" = "Server";
+"configuration_IMAP_not_supported" = "IMAP stöds för närvarande inte";
+"account_server_settings_authentication_client_certificate" = "Klientcertifikat";
+"account_server_settings_authentication_label" = "Autentisering";
+"account_server_settings_authentication_password_cleartext" = "Lösenord";
+"account_server_settings_authentication_password_encrypted" = "Krypterat lösenord";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "Ingen";
+"donation_support" = "Donera";

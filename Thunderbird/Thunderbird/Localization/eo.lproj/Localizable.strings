@@ -1,0 +1,17 @@
+"account_oauth_sign_in_button" = "Saluti";
+"account_server_settings_username_label" = "Salutnomo";
+"account_server_settings_protocol_type_label" = "Protokolo";
+"account_server_settings_security_label" = "Sekureco";
+"account_server_settings_port_label" = "Pordo";
+"account_server_settings_server_label" = "Servilo";
+"account_server_settings_authentication_client_certificate" = "Klienta atestilo";
+"account_server_settings_authentication_label" = "Aŭtentokontrolo";
+"account_server_settings_authentication_password_cleartext" = "Pasvorto";
+"account_server_settings_authentication_password_encrypted" = "Ĉifrita pasvorto";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "Nenio";
+"donation_support" = "Donaci";
+"onboarding_welcome_text" = "Malfermitkoda, privateco-gardanta kaj senreklama retpoŝtilo por iOS.";
+"onboarding_welcome_start_button" = "Eki";
+"onboarding_welcome_developed_by" = "Evoluata de diligenta teamo ĉe MZLA Technologies kaj tutmonda komunumo da volontuloj. Parto de la familio Mozilla.";
+"configuration_IMAP_not_supported" = "IMAP aktuale ne estas subtenata";

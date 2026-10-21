@@ -1,0 +1,17 @@
+"onboarding_welcome_text" = "iOS için açık kaynaklı, gizlilik odaklı ve reklamsız e-posta uygulaması.";
+"onboarding_welcome_developed_by" = "MZLA Technologies'de özel bir ekip ve küresel bir gönüllü topluluğu tarafından geliştirildi. Mozilla ailesinin bir parçası.";
+"onboarding_welcome_start_button" = "Başlayın";
+"account_oauth_sign_in_button" = "Giriş yap";
+"account_server_settings_username_label" = "Kullanıcı adı";
+"account_server_settings_protocol_type_label" = "Protokol";
+"account_server_settings_security_label" = "Güvenlik";
+"account_server_settings_port_label" = "Port";
+"account_server_settings_server_label" = "Sunucu";
+"account_server_settings_authentication_client_certificate" = "İstemci sertifikası";
+"account_server_settings_authentication_label" = "Kimlik doğrulama";
+"account_server_settings_authentication_password_cleartext" = "Parola";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "Yok";
+"configuration_IMAP_not_supported" = "IMAP henüz desteklenmiyor";
+"account_server_settings_authentication_password_encrypted" = "Şifrelenmiş parola";
+"donation_support" = "Bağış yap";

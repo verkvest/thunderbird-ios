@@ -1,0 +1,17 @@
+"onboarding_welcome_start_button" = "Начало";
+"account_server_settings_authentication_none" = "Никаква";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_password_encrypted" = "Шифрована парола";
+"onboarding_welcome_developed_by" = "Разработено от екип от специалисти в MZLA Technologies и глобална общност от доброволци. Част от семейството на Mozilla.";
+"onboarding_welcome_text" = "Свободно приложение за електронна поща под iOS с отворен код.";
+"account_oauth_sign_in_button" = "Вписване";
+"account_server_settings_username_label" = "Потребителско име";
+"account_server_settings_protocol_type_label" = "Протокол";
+"account_server_settings_security_label" = "Защита";
+"account_server_settings_port_label" = "Порт";
+"account_server_settings_server_label" = "Сървър";
+"configuration_IMAP_not_supported" = "IMAP не се поддържа";
+"account_server_settings_authentication_client_certificate" = "Сертификат на клиента";
+"account_server_settings_authentication_label" = "Удостоверяване";
+"account_server_settings_authentication_password_cleartext" = "Парола";
+"donation_support" = "Дарение";

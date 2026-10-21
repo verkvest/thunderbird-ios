@@ -1,0 +1,17 @@
+"onboarding_welcome_developed_by" = "Разрабатывается специальной командой MZLA Technologies и глобальным сообществом волонтёров. Часть семейства Mozilla.";
+"onboarding_welcome_start_button" = "Начать";
+"onboarding_welcome_text" = "Почтовое приложение для iOS с открытым исходным кодом, ориентированное на конфиденциальность и не содержащее рекламы.";
+"account_server_settings_username_label" = "Имя пользователя";
+"account_oauth_sign_in_button" = "Войти";
+"account_server_settings_protocol_type_label" = "Протокол";
+"account_server_settings_security_label" = "Безопасность";
+"account_server_settings_port_label" = "Порт";
+"account_server_settings_server_label" = "Сервер";
+"configuration_IMAP_not_supported" = "В настоящее время IMAP не поддерживается";
+"account_server_settings_authentication_client_certificate" = "Сертификат клиента";
+"account_server_settings_authentication_label" = "Аутентификация";
+"account_server_settings_authentication_password_cleartext" = "Пароль";
+"account_server_settings_authentication_password_encrypted" = "Зашифрованный пароль";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "Нет";
+"donation_support" = "Поддержать";

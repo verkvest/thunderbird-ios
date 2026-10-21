@@ -1,0 +1,17 @@
+"onboarding_welcome_start_button" = "Hefjast handa";
+"onboarding_welcome_text" = "Tölvupóstforrit fyrir iOS, með opinn grunnkóða, án auglýsinga og með áherslu á persónuvernd.";
+"onboarding_welcome_developed_by" = "Þróað af sérstöku teymi við MZLA Technologies og sjálfboðaliðum um víða veröld. Hluti af Mozilla-fjölskyldunni.";
+"account_server_settings_authentication_none" = "Engin";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_oauth_sign_in_button" = "Skrá inn";
+"account_server_settings_username_label" = "Notandanafn";
+"account_server_settings_protocol_type_label" = "Samskiptamáti";
+"account_server_settings_security_label" = "Öryggi";
+"account_server_settings_port_label" = "Gátt";
+"account_server_settings_server_label" = "Póstþjónn";
+"configuration_IMAP_not_supported" = "IMAP er ekki stutt í augnablikinu";
+"account_server_settings_authentication_client_certificate" = "Skilríki biðlara";
+"account_server_settings_authentication_label" = "Auðkenning";
+"account_server_settings_authentication_password_cleartext" = "Lykilorð";
+"account_server_settings_authentication_password_encrypted" = "Dulritað lykilorð";
+"donation_support" = "Styrkja";

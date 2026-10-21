@@ -1,0 +1,1 @@
+# About Thunderbird for iOS

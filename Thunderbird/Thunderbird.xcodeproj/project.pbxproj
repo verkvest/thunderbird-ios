@@ -1,0 +1,656 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		15501F1C2F9666AB0041B309 /* Bolt in Frameworks */ = {isa = PBXBuildFile; productRef = 15501F1B2F9666AB0041B309 /* Bolt */; };
+		15501F1E2F9666AB0041B309 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 15501F1D2F9666AB0041B309 /* Core */; };
+		FEFA29FB2FF6AAF700C8210B /* InfomaniakRichHTMLEditor in Frameworks */ = {isa = PBXBuildFile; productRef = FEFA29FA2FF6AAF700C8210B /* InfomaniakRichHTMLEditor */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1521D8252D9C4D6300C4DFDF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1521D80E2D9C4D6200C4DFDF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1521D8152D9C4D6200C4DFDF;
+			remoteInfo = Thunderbird;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1521D8162D9C4D6200C4DFDF /* Thunderbird.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Thunderbird.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1521D8242D9C4D6300C4DFDF /* ThunderbirdTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThunderbirdTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		142ECC532ECE4D1C00518776 /* Exceptions for "Thunderbird" folder in "ThunderbirdTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+				FeatureFlags/Distribution.swift,
+				FeatureFlags/FeatureFlags.swift,
+				Util/AvatarView.swift,
+				Util/SmartDateFormatter.swift,
+				Util/UtilFunctions.swift,
+			);
+			target = 1521D8232D9C4D6300C4DFDF /* ThunderbirdTests */;
+		};
+		1593E40E2E7254CC00B82438 /* Exceptions for "Thunderbird" folder in "Thunderbird" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 1521D8152D9C4D6200C4DFDF /* Thunderbird */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		1521D8272D9C4D6300C4DFDF /* ThunderbirdTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ThunderbirdTests;
+			sourceTree = "<group>";
+		};
+		1521D85A2D9C4EED00C4DFDF /* Thunderbird */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				1593E40E2E7254CC00B82438 /* Exceptions for "Thunderbird" folder in "Thunderbird" target */,
+				142ECC532ECE4D1C00518776 /* Exceptions for "Thunderbird" folder in "ThunderbirdTests" target */,
+			);
+			path = Thunderbird;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1521D8132D9C4D6200C4DFDF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				15501F1C2F9666AB0041B309 /* Bolt in Frameworks */,
+				FEFA29FB2FF6AAF700C8210B /* InfomaniakRichHTMLEditor in Frameworks */,
+				15501F1E2F9666AB0041B309 /* Core in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1521D8212D9C4D6300C4DFDF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1521D80D2D9C4D6200C4DFDF = {
+			isa = PBXGroup;
+			children = (
+				1521D85A2D9C4EED00C4DFDF /* Thunderbird */,
+				1521D8272D9C4D6300C4DFDF /* ThunderbirdTests */,
+				15EC20F42DC8E50F0039FB48 /* Frameworks */,
+				1521D8172D9C4D6200C4DFDF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1521D8172D9C4D6200C4DFDF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1521D8162D9C4D6200C4DFDF /* Thunderbird.app */,
+				1521D8242D9C4D6300C4DFDF /* ThunderbirdTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		15EC20F42DC8E50F0039FB48 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1521D8152D9C4D6200C4DFDF /* Thunderbird */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1521D8382D9C4D6300C4DFDF /* Build configuration list for PBXNativeTarget "Thunderbird" */;
+			buildPhases = (
+				1521D8122D9C4D6200C4DFDF /* Sources */,
+				1521D8132D9C4D6200C4DFDF /* Frameworks */,
+				1521D8142D9C4D6200C4DFDF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				1521D85A2D9C4EED00C4DFDF /* Thunderbird */,
+			);
+			name = Thunderbird;
+			packageProductDependencies = (
+				15501F1B2F9666AB0041B309 /* Bolt */,
+				15501F1D2F9666AB0041B309 /* Core */,
+				FEFA29FA2FF6AAF700C8210B /* InfomaniakRichHTMLEditor */,
+			);
+			productName = Thunderbird;
+			productReference = 1521D8162D9C4D6200C4DFDF /* Thunderbird.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1521D8232D9C4D6300C4DFDF /* ThunderbirdTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1521D83B2D9C4D6300C4DFDF /* Build configuration list for PBXNativeTarget "ThunderbirdTests" */;
+			buildPhases = (
+				1521D8202D9C4D6300C4DFDF /* Sources */,
+				1521D8212D9C4D6300C4DFDF /* Frameworks */,
+				1521D8222D9C4D6300C4DFDF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1521D8262D9C4D6300C4DFDF /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				1521D8272D9C4D6300C4DFDF /* ThunderbirdTests */,
+			);
+			name = ThunderbirdTests;
+			packageProductDependencies = (
+			);
+			productName = ThunderbirdTests;
+			productReference = 1521D8242D9C4D6300C4DFDF /* ThunderbirdTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1521D80E2D9C4D6200C4DFDF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 2610;
+				TargetAttributes = {
+					1521D8152D9C4D6200C4DFDF = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					1521D8232D9C4D6300C4DFDF = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 1521D8152D9C4D6200C4DFDF;
+					};
+				};
+			};
+			buildConfigurationList = 1521D8112D9C4D6200C4DFDF /* Build configuration list for PBXProject "Thunderbird" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				de,
+				"zh-Hans",
+				he,
+				ar,
+				el,
+				ja,
+				fa,
+				sq,
+				eu,
+				co,
+				uk,
+				kab,
+				gu,
+				"nb-NO",
+				"en-GB",
+				am,
+				es,
+				is,
+				sl,
+				da,
+				gl,
+				eo,
+				et,
+				it,
+				fy,
+				bg,
+				sk,
+				kk,
+				sr,
+				be,
+				ta,
+				ml,
+				sv,
+				cs,
+				ko,
+				hy,
+				"zh-Hant",
+				hu,
+				ka,
+				ga,
+				tr,
+				ast,
+				pl,
+				br,
+				"pt-BR",
+				vi,
+				lv,
+				lt,
+				ru,
+				cy,
+				enm,
+				fr,
+				fi,
+				id,
+				nl,
+				th,
+				az,
+				nn,
+				pt,
+				bn,
+				"pt-PT",
+				ro,
+				bs,
+				hr,
+				hi,
+				ca,
+				gd,
+				sw,
+			);
+			mainGroup = 1521D80D2D9C4D6200C4DFDF;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1560FEE62DDF611F00F6295C /* XCLocalSwiftPackageReference "../Bolt" */,
+				15CB123B2F71854C002C0DA6 /* XCLocalSwiftPackageReference "../Core" */,
+				FEFA29E32FF59CD800C8210B /* XCRemoteSwiftPackageReference "swift-rich-html-editor" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 1521D8172D9C4D6200C4DFDF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1521D8152D9C4D6200C4DFDF /* Thunderbird */,
+				1521D8232D9C4D6300C4DFDF /* ThunderbirdTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1521D8142D9C4D6200C4DFDF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1521D8222D9C4D6300C4DFDF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1521D8122D9C4D6200C4DFDF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1521D8202D9C4D6300C4DFDF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1521D8262D9C4D6300C4DFDF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1521D8152D9C4D6200C4DFDF /* Thunderbird */;
+			targetProxy = 1521D8252D9C4D6300C4DFDF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1521D8362D9C4D6300C4DFDF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1521D8372D9C4D6300C4DFDF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		1521D8392D9C4D6300C4DFDF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = App;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Thunderbird/Thunderbird.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = BUMSKVQ3D9;
+				DOCC_HOSTING_BASE_PATH = "thunderbird-ios";
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Thunderbird/Info.plist;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.thunderbird.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.4;
+			};
+			name = Debug;
+		};
+		1521D83A2D9C4D6300C4DFDF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = App;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Thunderbird/Thunderbird.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				DOCC_HOSTING_BASE_PATH = "thunderbird-ios";
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Thunderbird/Info.plist;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.thunderbird.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.4;
+			};
+			name = Release;
+		};
+		1521D83C2D9C4D6300C4DFDF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.thunderbird.ThunderbirdTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Thunderbird.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Thunderbird";
+				XROS_DEPLOYMENT_TARGET = 2.4;
+			};
+			name = Debug;
+		};
+		1521D83D2D9C4D6300C4DFDF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.thunderbird.ThunderbirdTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Thunderbird.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Thunderbird";
+				XROS_DEPLOYMENT_TARGET = 2.4;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1521D8112D9C4D6200C4DFDF /* Build configuration list for PBXProject "Thunderbird" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1521D8362D9C4D6300C4DFDF /* Debug */,
+				1521D8372D9C4D6300C4DFDF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1521D8382D9C4D6300C4DFDF /* Build configuration list for PBXNativeTarget "Thunderbird" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1521D8392D9C4D6300C4DFDF /* Debug */,
+				1521D83A2D9C4D6300C4DFDF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1521D83B2D9C4D6300C4DFDF /* Build configuration list for PBXNativeTarget "ThunderbirdTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1521D83C2D9C4D6300C4DFDF /* Debug */,
+				1521D83D2D9C4D6300C4DFDF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		1560FEE62DDF611F00F6295C /* XCLocalSwiftPackageReference "../Bolt" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Bolt;
+		};
+		15CB123B2F71854C002C0DA6 /* XCLocalSwiftPackageReference "../Core" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Core;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FEFA29E32FF59CD800C8210B /* XCRemoteSwiftPackageReference "swift-rich-html-editor" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/thunderbird/swift-rich-html-editor";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		15501F1B2F9666AB0041B309 /* Bolt */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Bolt;
+		};
+		15501F1D2F9666AB0041B309 /* Core */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Core;
+		};
+		FEFA29FA2FF6AAF700C8210B /* InfomaniakRichHTMLEditor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FEFA29E32FF59CD800C8210B /* XCRemoteSwiftPackageReference "swift-rich-html-editor" */;
+			productName = InfomaniakRichHTMLEditor;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 1521D80E2D9C4D6200C4DFDF /* Project object */;
+}

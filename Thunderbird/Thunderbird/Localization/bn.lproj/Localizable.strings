@@ -1,0 +1,7 @@
+"account_server_settings_protocol_type_label" = "প্রোটোকল";
+"account_server_settings_server_label" = "সার্ভার";
+"account_server_settings_security_label" = "নিরাপত্তা";
+"account_server_settings_port_label" = "পোর্ট";
+"account_server_settings_authentication_label" = "যাচাইকরণ";
+"account_server_settings_username_label" = "নাম";
+"account_server_settings_authentication_none" = "কোনটি নয়";

@@ -1,0 +1,17 @@
+"onboarding_welcome_developed_by" = "MZLA Technologies の専門チームとボランティアの国際コミュニティが開発しました。Mozilla ファミリーの一員です。";
+"onboarding_welcome_text" = "オープンソース、プライバシー重視、広告なしの iOS 版メールアプリ。";
+"onboarding_welcome_start_button" = "はじめる";
+"account_oauth_sign_in_button" = "ログイン";
+"account_server_settings_username_label" = "ユーザー名";
+"account_server_settings_protocol_type_label" = "プロトコル";
+"account_server_settings_security_label" = "セキュリティ";
+"account_server_settings_port_label" = "ポート番号";
+"account_server_settings_server_label" = "サーバー";
+"configuration_IMAP_not_supported" = "現在、IMAP はサポートされていません";
+"account_server_settings_authentication_client_certificate" = "クライアント証明書認証";
+"account_server_settings_authentication_label" = "認証方式";
+"account_server_settings_authentication_password_cleartext" = "通常のパスワード認証";
+"account_server_settings_authentication_password_encrypted" = "暗号化されたパスワード認証";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "なし";
+"donation_support" = "寄付";

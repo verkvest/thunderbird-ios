@@ -1,0 +1,17 @@
+"account_server_settings_authentication_none" = "Nincs";
+"account_server_settings_authentication_password_encrypted" = "Titkosított jelszó";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"onboarding_welcome_text" = "Egy nyílt forráskódú, adatvédelemre összpontosító és reklámmentes levelezőalkalmazás iOS-re.";
+"onboarding_welcome_developed_by" = "Az MZLA Technologies elkötelezett csapata és önkéntesek globális közössége fejlesztette ki. A Mozilla család tagja.";
+"onboarding_welcome_start_button" = "Kezdő lépések";
+"account_oauth_sign_in_button" = "Bejelentkezés";
+"account_server_settings_username_label" = "Felhasználónév";
+"account_server_settings_protocol_type_label" = "Protokoll";
+"account_server_settings_security_label" = "Biztonság";
+"account_server_settings_port_label" = "Port";
+"account_server_settings_server_label" = "Kiszolgáló";
+"account_server_settings_authentication_client_certificate" = "Klienstanúsítvány";
+"account_server_settings_authentication_label" = "Hitelesítés";
+"account_server_settings_authentication_password_cleartext" = "Jelszó";
+"configuration_IMAP_not_supported" = "Az IMAP jelenleg nem támogatott";
+"donation_support" = "Adományozás";

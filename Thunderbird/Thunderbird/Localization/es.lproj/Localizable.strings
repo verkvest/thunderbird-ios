@@ -1,0 +1,17 @@
+"onboarding_welcome_text" = "Una aplicación de correo electrónico para iOS sin publicidad, de código abierto y centrada en la privacidad.";
+"onboarding_welcome_developed_by" = "Desarrollado por un equipo dedicado de MZLA Technologies y una comunidad global de voluntarios. Es parte de la familia Mozilla.";
+"onboarding_welcome_start_button" = "Empezar";
+"account_server_settings_username_label" = "Nombre de usuario";
+"account_server_settings_protocol_type_label" = "Protocolo";
+"account_server_settings_security_label" = "Seguridad";
+"account_server_settings_port_label" = "Puerto";
+"account_server_settings_server_label" = "Servidor";
+"configuration_IMAP_not_supported" = "IMAP actualmente no soportado";
+"account_server_settings_authentication_client_certificate" = "Certificado de cliente";
+"account_server_settings_authentication_label" = "Autenticación";
+"account_server_settings_authentication_password_cleartext" = "Contraseña";
+"account_server_settings_authentication_password_encrypted" = "Contraseña cifrada";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "Ninguna";
+"donation_support" = "Donar";
+"account_oauth_sign_in_button" = "Iniciar sesión";

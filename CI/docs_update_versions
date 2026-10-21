@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# This script updates the versions.json that is used for documentation versioning.
+# DOCS_VERSION specifies the current version of the documentation to update.
+
+function fail() {
+  echo "Error: $*"
+  exit 1
+}
+
+# Check if tools are installed
+command -v jq &> /dev/null || fail "jq is not installed"
+
+if [ -z "$DOCS_VERSION" ]; then
+    fail "Error: DOCS_VERSION is not set. Please set it and try again."
+fi
+
+BOOK_DIR="book"
+JSON_FILE="$BOOK_DIR/versions.json"
+VERSION=${DOCS_VERSION}
+
+if [ ! -d "$BOOK_DIR" ]; then
+  mkdir "$BOOK_DIR"
+fi
+
+# Create the JSON file if it doesn't exist
+if [ ! -f "${JSON_FILE}" ]; then
+  echo "{  \"latest\": \"/latest\" }" > "${JSON_FILE}"
+fi
+
+# Read the current JSON content and check if the version exists
+CURRENT_JSON=$(<"$JSON_FILE")
+if echo "${CURRENT_JSON}" | grep -q "\"${VERSION}\":"; then
+  echo "Version ${VERSION} already exists in ${JSON_FILE}. Skipping update."
+else
+  UPDATED_JSON=$(echo "${CURRENT_JSON}" | jq --arg version "${VERSION}" --arg url "/${VERSION}" '. + {($version): $url}')
+  echo "${UPDATED_JSON}" > "${JSON_FILE}"
+  echo "Version ${VERSION} added successfully to ${JSON_FILE}."
+fi

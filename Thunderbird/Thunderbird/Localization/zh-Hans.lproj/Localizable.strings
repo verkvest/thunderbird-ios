@@ -1,0 +1,17 @@
+"onboarding_welcome_text" = "开源、注重隐私且无广告的 iOS 电子邮件应用。";
+"onboarding_welcome_developed_by" = "由 MZLA Technologies 的专门团队和全球志愿者社区开发，并且是 Mozilla 家族的一员。";
+"onboarding_welcome_start_button" = "开始";
+"account_server_settings_authentication_none" = "无";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_oauth_sign_in_button" = "登录";
+"account_server_settings_username_label" = "用户名";
+"account_server_settings_protocol_type_label" = "协议";
+"account_server_settings_security_label" = "安全性";
+"account_server_settings_port_label" = "端口";
+"account_server_settings_server_label" = "服务器";
+"configuration_IMAP_not_supported" = "当前不支持 IMAP";
+"account_server_settings_authentication_client_certificate" = "客户端证书";
+"account_server_settings_authentication_label" = "身份验证";
+"account_server_settings_authentication_password_cleartext" = "密码";
+"account_server_settings_authentication_password_encrypted" = "加密的密码";
+"donation_support" = "捐赠";

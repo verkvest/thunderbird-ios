@@ -1,0 +1,17 @@
+"onboarding_welcome_text" = "In iepen boarne, op privacy rjochte en advertinsjefrije e-mail-app foar iOS.";
+"onboarding_welcome_developed_by" = "Untwikkele troch in tawijd team fan MZLA Technologies en in wrâldwide mienskip fan frijwilligers. Underdiel fan de Mozilla-famylje.";
+"onboarding_welcome_start_button" = "Starte";
+"account_oauth_sign_in_button" = "Oanmelde";
+"account_server_settings_username_label" = "Brûkersnamme";
+"account_server_settings_protocol_type_label" = "Protokol";
+"account_server_settings_security_label" = "Befeiliging";
+"account_server_settings_port_label" = "Poarte";
+"account_server_settings_server_label" = "Server";
+"configuration_IMAP_not_supported" = "IMAP wurdt noch net stipe";
+"account_server_settings_authentication_client_certificate" = "Clientsertifikaat";
+"account_server_settings_authentication_label" = "Autentikaasje";
+"account_server_settings_authentication_password_cleartext" = "Wachtwurd";
+"account_server_settings_authentication_password_encrypted" = "Fersifere wachtwurd";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "Gjin";
+"donation_support" = "Donearje";

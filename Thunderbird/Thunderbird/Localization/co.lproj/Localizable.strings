@@ -1,0 +1,17 @@
+"account_server_settings_authentication_none" = "Nisuna";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"onboarding_welcome_text" = "Un’appiecazione di messaghjeria elettronica per iOS, à codice di fonte apertu, rispettosa di a vita privata è senza publicità.";
+"onboarding_welcome_developed_by" = "Sviluppata da una squadra dedicata ind’è MZLA Technologies è una cumunità glubale di vuluntarii. Parte di a famiglia Mozilla.";
+"onboarding_welcome_start_button" = "Principià";
+"account_oauth_sign_in_button" = "Cunnettesi";
+"account_server_settings_username_label" = "Nome d’utilizatore";
+"account_server_settings_protocol_type_label" = "Protocollu";
+"account_server_settings_security_label" = "Sicurità";
+"account_server_settings_port_label" = "Portu";
+"account_server_settings_server_label" = "Servitore";
+"configuration_IMAP_not_supported" = "IMAP ùn hè micca accettatu attualmente";
+"account_server_settings_authentication_client_certificate" = "Certificatu di u cliente";
+"account_server_settings_authentication_label" = "Autenticazione";
+"account_server_settings_authentication_password_cleartext" = "Parolla d’intesa";
+"account_server_settings_authentication_password_encrypted" = "Parolle d’intesa cifrata";
+"donation_support" = "Dunazione";

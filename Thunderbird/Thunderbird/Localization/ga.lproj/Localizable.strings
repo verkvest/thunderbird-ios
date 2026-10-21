@@ -1,0 +1,17 @@
+"onboarding_welcome_text" = "Aip ríomhphoist foinse oscailte, dírithe ar phríobháideacht agus saor ó fhógraí do iOS.";
+"onboarding_welcome_developed_by" = "Forbartha ag foireann dhíograiseach ag MZLA Technologies agus pobal domhanda oibrithe deonacha. Cuid de theaghlach Mozilla.";
+"onboarding_welcome_start_button" = "Cuir tús leis";
+"account_oauth_sign_in_button" = "Sínigh Isteach";
+"account_server_settings_username_label" = "Ainm úsáideora";
+"account_server_settings_protocol_type_label" = "Prótacal";
+"account_server_settings_security_label" = "Slándáil";
+"account_server_settings_port_label" = "Port";
+"account_server_settings_server_label" = "Freastalaí";
+"configuration_IMAP_not_supported" = "Ní thacaítear le IMAP faoi láthair";
+"account_server_settings_authentication_client_certificate" = "Teastas Cliant";
+"account_server_settings_authentication_label" = "Fíordheimhniú";
+"account_server_settings_authentication_password_cleartext" = "Pasfhocal";
+"account_server_settings_authentication_password_encrypted" = "Pasfhocal Criptithe";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "Dada";
+"donation_support" = "Tabhair Síntiús";

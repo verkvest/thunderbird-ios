@@ -1,0 +1,17 @@
+"onboarding_welcome_developed_by" = "Dezvoltat de o echipă dedicată de la MZLA Technologies și de o comunitate globală de voluntari. Face parte din familia Mozilla.";
+"onboarding_welcome_text" = "O aplicație de poștă electronică cu cod-sursă deschis, axată pe confidențialitate și fără reclame pentru iOS.";
+"onboarding_welcome_start_button" = "Începeți";
+"account_oauth_sign_in_button" = "Conectați-vă";
+"account_server_settings_username_label" = "Numele utilizatorului";
+"account_server_settings_protocol_type_label" = "Protocol";
+"account_server_settings_security_label" = "Securitate";
+"account_server_settings_port_label" = "Port";
+"account_server_settings_server_label" = "Server";
+"configuration_IMAP_not_supported" = "Protocolul IMAP nu este acceptat în prezent";
+"account_server_settings_authentication_client_certificate" = "Certificat client";
+"account_server_settings_authentication_label" = "Autentificare";
+"account_server_settings_authentication_password_encrypted" = "Parolă criptată";
+"account_server_settings_authentication_client_oauth" = "OAuth 2.0";
+"account_server_settings_authentication_none" = "Niciuna";
+"donation_support" = "Donați";
+"account_server_settings_authentication_password_cleartext" = "Parola";
